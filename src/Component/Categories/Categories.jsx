@@ -6,8 +6,8 @@ const categories = [
   { name: 'Fashion', image: '/images/fashion.png' },
   { name: 'Electronics', image: '/images/electronics.png' },
   { name: 'Home & Furniture', image: '/images/home-furniture.png' },
-  { name: 'Appliances', image: '/images/appliances.png' },
-  { name: 'Beauty, Toys & More', image: '/images/beauty-toys.png' },
+  // { name: 'Appliances', image: '/images/appliances.png' },
+  // { name: 'Beauty, Toys & More', image: '/images/beauty-toys.png' },
 ];
 
 const Categories = () => {

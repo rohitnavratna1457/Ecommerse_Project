@@ -31,15 +31,7 @@ function Header() {
         <div className="cart-badge">2</div>
       </div>
 
-      {/* Seller Option */}
-      <div className="navbar-seller">
-        <span>Become a Seller</span>
-      </div>
-
-      {/* More Options */}
-      <div className="navbar-more">
-        <i className="fas fa-ellipsis-v"></i>
-      </div>
+      
     </div>
   );
 }
