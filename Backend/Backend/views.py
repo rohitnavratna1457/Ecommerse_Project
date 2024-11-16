@@ -29,8 +29,8 @@ class Sellor_Reg(APIView):
         # Return serialized seller data
         return Response(sellor_data.data, status=status.HTTP_200_OK)
 
-    def get(request):
-     if request.method == 'POST':
+def get(request):
+    if request.method == 'POST':
         login_email = request.data.get('email')
         login_password = request.data.get('password')
 
