@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 class SellerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Seller_Signup
-        fields = ['name', 'email', 'phone', 'brand_name', 'category', 'gender', 'file', 'password']
+        fields = ['name', 'email', 'phone',  'category', 'gender', 'file', 'password']
 
     def create(self, validated_data):
         # Hash the password before saving the seller
