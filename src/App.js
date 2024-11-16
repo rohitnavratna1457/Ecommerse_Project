@@ -1,21 +1,48 @@
 import React from 'react';
-import Header from './Component/Header_Page/Header';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Categories from './Component/Categories/Categories';
-// import CategoryPage from './Component/CategoryPage/CategoryPage';  // Import the CategoryPage component
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ShopProvider } from './context/ShopContext';
+import Nav from './components/Nav';
+import Home from './components/Home';
+import Products from './components/Products';
+import ProductDetails from './components/ProductDetails';
+import Cart from './components/Cart';
+import Login from './components/Login';
+import Checkout from './components/Checkout';
+import PrivateRoute from './components/PrivateRoute';
+import SignUp from './components/SignUp';
+import Footer from './components/Footer';
+import Wishlist from './components/Wishlist';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Header />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Categories />} />
-          {/* <Route path="/categories/:categoryName" element={<CategoryPage />} /> Add route for category page */}
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <ShopProvider>
+      <Router>
+        <div className="app">
+          <Nav />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/product/:id" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/login" element={<Login />} />
+              <Route 
+                path="/checkout" 
+                element={
+                  <PrivateRoute>
+                    <Checkout />
+                  </PrivateRoute>
+                } 
+              />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </ShopProvider>
   );
-}
+};
 
 export default App;
