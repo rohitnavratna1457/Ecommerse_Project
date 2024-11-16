@@ -1,37 +1,47 @@
+
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import './SignUp.css';
+import { PostSignUp } from '../Api/CoreApi'; // Ensure this method is correctly defined in CoreApi.js
 
 const SignUp = () => {
   const navigate = useNavigate();
   const { login } = useShop();
+
   const [formData, setFormData] = useState({
-    fullName: '',
+    name: '',
     email: '',
     password: '',
     confirmPassword: '',
     phone: '',
     gender: '',
-    file: '',
+    category: '', // New category field
+    file: null,
     address: '',
-    acceptTerms: false
+    acceptTerms: false,
   });
+
+
+  console.log(formData,"***************")
+
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    const { name, value, type, checked, files } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox' ? checked : files ? files[0] : value,
     }));
+
     // Clear error when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: '',
       }));
     }
   };
@@ -40,10 +50,10 @@ const SignUp = () => {
     const newErrors = {};
 
     // Name validation
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Name is required';
-    } else if (formData.fullName.length < 3) {
-      newErrors.fullName = 'Name must be at least 3 characters';
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (formData.name.length < 3) {
+      newErrors.name = 'Name must be at least 3 characters';
     }
 
     // Email validation
@@ -59,10 +69,10 @@ const SignUp = () => {
     } else if (formData.password.length < 8) {
       newErrors.password = 'Password must be at least 8 characters';
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.password)) {
-      newErrors.password = 'Password must contain uppercase, lowercase and number';
+      newErrors.password = 'Password must contain uppercase, lowercase, and a number';
     }
 
-    // Confirm Password
+    // Confirm Password validation
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
@@ -76,17 +86,22 @@ const SignUp = () => {
 
     // Gender validation
     if (!formData.gender) {
-      newErrors.gender = 'Please select gender';
+      newErrors.gender = 'Please select a gender';
     }
 
-    // Birthdate validation
-    if (!formData.birthdate) {
-      newErrors.birthdate = 'Please select birthdate';
+    // Category validation
+    if (!formData.category) {
+      newErrors.category = 'Please select a category';
     }
 
     // Address validation
     if (!formData.address.trim()) {
       newErrors.address = 'Address is required';
+    }
+
+    // File validation
+    if (!formData.file) {
+      newErrors.file = 'Please upload a file';
     }
 
     // Terms acceptance
@@ -100,20 +115,36 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       setLoading(true);
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        login({
-          name: formData.fullName,
-          email: formData.email
-        });
-        navigate('/');
+        // Prepare form data for submission
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('email', formData.email);
+        data.append('password', formData.password);
+        data.append('phone', formData.phone);
+        data.append('gender', formData.gender);
+        data.append('category', formData.category); // Include category
+        data.append('file', formData.file);
+        data.append('address', formData.address);
+
+        // Call the API
+        const response = await PostSignUp(data);
+
+        if (response.status === 201) {
+          login({
+            name: formData.name,
+            email: formData.email,
+          });
+          navigate('/');
+        } else {
+          setErrors({ submit: 'Failed to create an account. Please try again.' });
+        }
       } catch (error) {
-        setErrors({ submit: 'Failed to create account. Please try again.' });
+        setErrors({ submit: 'An error occurred. Please try again.' });
+        console.error('Error during sign-up:', error);
       } finally {
         setLoading(false);
       }
@@ -129,17 +160,18 @@ const SignUp = () => {
         </div>
         <form onSubmit={handleSubmit} className="signup-form">
           <div className="form-columns">
+            {/* Left Column */}
             <div className="form-column">
               <div className="form-group">
                 <label>Full Name</label>
                 <input
                   type="text"
-                  name="fullName"
-                  value={formData.fullName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  className={errors.fullName ? 'error' : ''}
+                  className={errors.name ? 'error' : ''}
                 />
-                {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+                {errors.name && <span className="error-message">{errors.name}</span>}
               </div>
 
               <div className="form-group">
@@ -181,14 +213,33 @@ const SignUp = () => {
                 </select>
                 {errors.gender && <span className="error-message">{errors.gender}</span>}
               </div>
+
+              <div className="form-group">
+                <label>Category</label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  className={errors.category ? 'error' : ''}
+                >
+                  <option value="">Select Category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="groceries">Groceries</option>
+                  <option value="sports">Sports</option>
+                  <option value="others">Others</option>
+                </select>
+                {errors.category && <span className="error-message">{errors.category}</span>}
+              </div>
             </div>
 
+            {/* Right Column */}
             <div className="form-column">
               <div className="form-group">
                 <label>Password</label>
                 <div className="password-input">
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
@@ -220,15 +271,14 @@ const SignUp = () => {
               </div>
 
               <div className="form-group">
-                <label>file</label>
+                <label>File</label>
                 <input
                   type="file"
                   name="file"
-                  value={formData.file}
                   onChange={handleChange}
                   className={errors.file ? 'error' : ''}
                 />
-                {errors.birthdate && <span className="error-message">{errors.birthdate}</span>}
+                {errors.file && <span className="error-message">{errors.file}</span>}
               </div>
 
               <div className="form-group">
@@ -278,4 +328,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp; 
+export default SignUp;
