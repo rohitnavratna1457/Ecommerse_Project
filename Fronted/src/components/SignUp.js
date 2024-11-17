@@ -18,7 +18,7 @@ const SignUp = () => {
     phone: '',
     gender: '',
     category: '', // New category field
-    file: null,
+    file: '',
     address: '',
     acceptTerms: false,
   });

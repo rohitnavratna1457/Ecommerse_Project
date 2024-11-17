@@ -59,8 +59,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Seller_Signup  # Ensure your Seller model is properly imported
-from .serializer import SellerSerializer  # Ensure your serializer is properly imported
+from .models import Seller_Signup ,User_Signup # Ensure your Seller model is properly imported
+from .serializer import SellerSerializer ,UserSerializer # Ensure your serializer is properly imported
 # from django.contrib.auth.hashers import check_password
 # from django.contrib.auth.hashers import make_password
 class Sellor_Reg(APIView):
@@ -83,12 +83,38 @@ class Sellor_Reg(APIView):
         sellers = Seller_Signup.objects.all()
         seller_data = SellerSerializer(sellers, many=True)
         return Response(seller_data.data, status=status.HTTP_200_OK)
-# import pdb
+
 class Sellor_Login(APIView):
-#   pdb.set_trace()
+
    def post(self, request):
         login_email = request.data.get('email')
         login_password = request.data.get('password')
         user = Seller_Signup.objects.get(email=login_email, password=login_password)
         serializer = SellerSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+   
+  #for user 
+class User_Reg(APIView):   
+    def post(self,request):
+        serializer=UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            users=User_Signup.objects.all()
+            user_data=UserSerializer(users,many=True)
+            return Response(user_data.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, format=None):
+        # Fetch and return all seller data
+        users = User_Signup.objects.all()
+        User_data = UserSerializer(users, many=True)
+        return Response(User_data.data, status=status.HTTP_200_OK)
+    
+class User_Login(APIView):
+
+   def post(self, request):
+        login_email = request.data.get('email')
+        login_password = request.data.get('password')
+        users = User_Signup.objects.get(email=login_email, password=login_password)
+        serializer = UserSerializer(users)
         return Response(serializer.data, status=status.HTTP_200_OK)
