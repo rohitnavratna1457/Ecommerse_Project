@@ -53,8 +53,8 @@ class KYC(models.Model):
 
 
 # Seller_Signup
-from django.db import models
-from django.contrib.auth.hashers import make_password  # For password hashing
+# from django.db import models
+# from django.contrib.auth.hashers import make_password  # For password hashing
 
 # Choices for Gender
 GENDER_CHOICES = (
@@ -84,6 +84,17 @@ class Seller_Signup(models.Model):
     #         self.password = make_password(self.password)
     #     super(Seller_Signup, self).save(*args, **kwargs)
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
+    
+class Product(models.Model):
+    seller = models.ForeignKey(Seller_Signup,on_delete=models.CASCADE,related_name="Product")
+    title = models.CharField(max_length=200)
+    category = models.CharField(max_length=100)
+    subcategory = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.IntegerField()
+    admin_approved = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
