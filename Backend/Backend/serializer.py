@@ -12,3 +12,7 @@ class SellerSerializer(serializers.ModelSerializer):
     #     # Hash the password before saving the seller
     #     validated_data['password'] = make_password(validated_data['password'])
     #     return super().create(validated_data)
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User_Signup
+        fields = ['name', 'email', 'phone',   'gender',  'password']    
