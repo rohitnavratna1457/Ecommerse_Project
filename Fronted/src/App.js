@@ -12,7 +12,7 @@ import PrivateRoute from './components/PrivateRoute';
 import SignUp from './components/SignUp';
 import Footer from './components/Footer';
 import Wishlist from './components/Wishlist';
-
+import Rohit from './components/Rohit';
 const App = () => {
   return (
     <ShopProvider>
@@ -26,6 +26,7 @@ const App = () => {
               <Route path="/product/:id" element={<ProductDetails />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/rohit" element={<Rohit />} />
               <Route 
                 path="/checkout" 
                 element={
