@@ -17,13 +17,14 @@ export const PostSignUp = async (values) => {
     return response ? response.data : {}
 } 
 
-// export const getbooklist = async() => {
-//     const response = await API.get(`api/getbookap/`,
-//     {headers : {'Content-Type':'application/json'}}).catch(
-//         err => message.error('regisration failed.')
-//     )
-//     return response ? response.data: {}
-// }
+export const getlogin = async(values) => {
+    console.log(values)
+    const response = await API.post(`api/login/`,values,
+    {headers : {'Content-Type':'application/json'}}).catch(
+        err => message.error('regisration failed.')
+    )
+    return response ? response.data: {}
+}
  
 // export const getdata = async() => {
 //     const response = await API.get(`api/productcategory/`,

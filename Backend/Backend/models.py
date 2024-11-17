@@ -74,16 +74,16 @@ class Seller_Signup(models.Model):
     file = models.FileField(upload_to='uploads/seller_files/', blank=True, null=True)
     password = models.CharField(max_length=128)  # Store hashed passwords securely
 
-    def save(self, *args, **kwargs):
-        # Hash the password only if it's not already hashed
-        if self.pk:  # Check if the object exists in the database
-            original = Seller_Signup.objects.get(pk=self.pk)
-            if self.password != original.password:  # Hash only if password has changed
-                self.password = make_password(self.password)
-        else:
-            self.password = make_password(self.password)
-        super(Seller_Signup, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     # Hash the password only if it's not already hashed
+    #     if self.pk:  # Check if the object exists in the database
+    #         original = Seller_Signup.objects.get(pk=self.pk)
+    #         if self.password != original.password:  # Hash only if password has changed
+    #             self.password = make_password(self.password)
+    #     else:
+    #         self.password = make_password(self.password)
+    #     super(Seller_Signup, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return self.name
+    # def __str__(self):
+    #     return self.name
 
