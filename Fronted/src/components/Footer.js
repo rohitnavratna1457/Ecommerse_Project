@@ -62,8 +62,8 @@ const Footer = () => {
           <h3>Contact Us</h3>
           <div className="contact-info">
             <p>Email: support@shopcart.com</p>
-            <p>Phone: 1-800-123-4567</p>
-            <p>Address: 123 Shopping Street,</p>
+            <p>Phone: +91-8959225934</p>
+            <p>Address: Proffesor Colony Raipur,</p>
             <p>E-commerce City, EC 12345</p>
           </div>
         </div>
