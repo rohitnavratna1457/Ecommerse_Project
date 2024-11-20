@@ -150,7 +150,7 @@ class Product(models.Model):
     status = models.CharField(max_length=50, default="Active")
 
     # Seller and SEO
-    seller = models.ForeignKey('Seller', on_delete=models.SET_NULL, null=True)
+    # seller = models.ForeignKey('Seller', on_delete=models.SET_NULL, null=True)
     return_policy = models.TextField(null=True, blank=True)
     warranty = models.TextField(null=True, blank=True)
 
@@ -196,12 +196,12 @@ class Product(models.Model):
     #     return round(total_price, 2)
     
     
-class Seller(models.Model):
-    name = models.CharField(max_length=255)
-    contact_info = models.TextField()
+# class Seller(models.Model):
+#     name = models.CharField(max_length=255)
+#     contact_info = models.TextField()
     
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
     
 
 
