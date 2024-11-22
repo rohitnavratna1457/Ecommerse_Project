@@ -7,7 +7,7 @@ ROLE_CHOICES = (
     ('admin', 'Admin'),
     ('seller', 'Seller'),
     ('user', 'User'),
-    ('delivery', 'Delivery'),
+    # ('delivery', 'Delivery'),
 )
 
 # Define gender choices
@@ -28,6 +28,7 @@ class CustomUser(AbstractUser):
     """
     Extend the default Django User model to include roles and other fields.
     """
+    id=models.AutoField(primary_key=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='user')
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, null=True)
     review_status = models.CharField(max_length=10, choices=REVIEW_STATUS_CHOICES, default='pending')
