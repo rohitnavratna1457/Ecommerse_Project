@@ -1,6 +1,9 @@
 import { message } from 'antd'
 import API from './Api'
 import axios from "axios";
+// import API_URL from '../Config/Config';
+
+
 // export const EmpLogin = async (values) => {
 //     const response = await API.post('api/login', values,
 //         { headers: { 'Content-Type': 'application/json' } }).catch(
@@ -24,7 +27,54 @@ export const getlogin = async(values) => {
         err => message.error('regisration failed.')
     )
     return response ? response.data: {}
+} 
+
+export const sellerRegister = async (values) => {
+  const response = await API.post('account/seller_reg', values,
+      { headers: { 'Content-Type': 'multipart/form-data' } }).catch(
+          err => message.error('Registration Failed')
+      )
+  return response ? response.data : {}
+} 
+
+export const loginUser = async(values) => {
+  // const token = localStorage.getItem("access");
+  // console.log(values, token , '8**********')
+
+  const response = await API.post('account/super_admin_login',values,
+  {headers : 
+    {
+      'Content-Type':'application/json'
+    
+  }}).catch(
+      err => message.error('regisration failed.')
+  )
+  return response ? response.data: {}
 }
+
+
+// export const loginUser = async (values) => {
+//   const token = localStorage.getItem("access"); // Replace with your actual token if required
+//   console.log(values, token , '8**********')
+
+//   try {
+//     const response = await API.post(
+//       'account/seller_login',
+//       values,
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${token}`, // Include Bearer token
+//         },
+//       }
+//     );
+//     return response ? response.data : {};
+//   } catch (err) {
+//     console.error('Login API Error:', err);
+//     message.error('Login failed. Please try again.');
+//     return {};
+//   }
+// };
  
 // export const getdata = async() => {
 //     const response = await API.get(`api/productcategory/`,
@@ -484,4 +534,6 @@ export const getlogin = async(values) => {
 //     )
 //     return response ? response.data: {}
 // }
+
+
 

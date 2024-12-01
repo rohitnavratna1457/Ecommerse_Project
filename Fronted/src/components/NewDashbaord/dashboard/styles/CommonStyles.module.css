@@ -1,0 +1,862 @@
+.pageContainer {
+  padding: 1.5rem;
+}
+
+.pageTitle {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.pageDescription {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.contentSection {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 500;
+  color: #374151;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+.submitButton {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #2563eb;
+}
+
+/* Table Styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+  background-color: #f9fafb;
+  font-weight: 500;
+  color: #374151;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.editButton {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+}
+
+.deleteButton {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+}
+
+/* Add these new styles at the end of the file */
+
+.actionCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.actionCard {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: #374151;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.actionCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.actionIcon {
+  font-size: 2rem;
+  color: #3b82f6;
+  margin-bottom: 1rem;
+}
+
+.actionCard h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.actionCard p {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Product List Specific Styles */
+.productListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+
+.headerLeft {
+  flex-shrink: 0;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.searchWrapper {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+.searchContainer {
+  position: relative;
+  width: 100%;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  background-color: white;
+  color: #374151;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.addButton:hover {
+  background-color: #2563eb;
+  transform: translateY(-1px);
+}
+
+.addIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.pageDescription {
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .productListHeader {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .headerRight {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: none;
+  }
+
+  .addButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Update existing table styles for better alignment */
+.tableContainer {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.table th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  padding: 1rem;
+}
+
+.table td {
+  padding: 1rem;
+  vertical-align: middle;
+}
+
+/* Enhanced Table Styles */
+.tableContainer {
+  overflow-x: auto;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th {
+  background-color: #f8fafc;
+  padding: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.table tr:hover {
+  background-color: #f9fafb;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Status Badge */
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+}
+
+.inStock {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.lowStock {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.outOfStock {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.editButton,
+.deleteButton {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editButton {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #2563eb;
+}
+
+.deleteButton {
+  background-color: #ef4444;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #dc2626;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.pageInfo {
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.pageButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pageButton {
+  padding: 0.5rem 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: #374151;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageButton:hover {
+  background-color: #f9fafb;
+}
+
+.pageButton.active {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.pageButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Add or update these styles in your CommonStyles.module.css */
+
+.listHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.titleSection {
+  flex-shrink: 0;
+  min-width: 200px;
+}
+
+.actionSection {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  flex-grow: 1;
+  justify-content: flex-end;
+  max-width: 800px;
+}
+
+.searchBox {
+  position: relative;
+  flex-grow: 1;
+  max-width: 400px;
+  margin-right: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background-color: #f9fafb;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+  background-color: white;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  width: 1.5rem;
+  height: 1.5rem;
+  pointer-events: none;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 2rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  white-space: nowrap;
+  min-width: fit-content;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+}
+
+.primaryButton:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+.buttonIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .actionSection {
+    gap: 2rem;
+  }
+
+  .searchBox {
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .listHeader {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .actionSection {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: none;
+  }
+
+  .searchBox {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+  }
+
+  .primaryButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Update page title styles */
+.pageTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.pageDescription {
+  color: #6b7280;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Add hover effect to search input */
+.searchBox:hover .searchInput {
+  border-color: #d1d5db;
+}
+
+/* Add transition to search icon */
+.searchIcon {
+  transition: color 0.2s ease;
+}
+
+.searchInput:focus + .searchIcon {
+  color: #3b82f6;
+}
+
+/* Add these new styles for the enhanced AddProduct form */
+
+.addProductContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.formWrapper {
+  background-color: #f8fafc;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.formContainer {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.formColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.backButton {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  background-color: #f3f4f6;
+}
+
+.backButton:hover {
+  color: #374151;
+  background-color: #e5e7eb;
+}
+
+.backButton svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.formHeader {
+  position: relative;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+}
+
+.formHeader .pageTitle {
+  font-size: 2rem;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.formHeader .pageDescription {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
+/* Update existing form styles */
+.formSection {
+  background-color: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+/* Update form actions */
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid #f3f4f6;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .addProductContainer {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .formWrapper {
+    padding: 1rem;
+  }
+  
+  .formContainer {
+    padding: 1rem;
+  }
+  
+  .formActions {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+}
+
+/* Add these new styles for KYC Status component */
+
+.titleIcon {
+  margin-right: 0.5rem;
+  font-size: 1.75rem;
+  vertical-align: middle;
+  color: #3b82f6;
+}
+
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.statCard.approved {
+  border-left: 4px solid #10b981;
+}
+
+.statCard.pending {
+  border-left: 4px solid #f59e0b;
+}
+
+.statCard.rejected {
+  border-left: 4px solid #ef4444;
+}
+
+.statIcon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+.approved .statIcon {
+  color: #10b981;
+}
+
+.pending .statIcon {
+  color: #f59e0b;
+}
+
+.rejected .statIcon {
+  color: #ef4444;
+}
+
+.statInfo h3 {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.statInfo p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statusIconApproved,
+.statusIconRejected,
+.statusIconPending {
+  margin-right: 0.375rem;
+  font-size: 1.25rem;
+}
+
+.statusApproved {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.statusPending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.statusRejected {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.viewButton,
+.approveButton,
+.rejectButton {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  margin-right: 0.5rem;
+}
+
+.viewButton {
+  background-color: #e5e7eb;
+  color: #374151;
+}
+
+.viewButton:hover {
+  background-color: #d1d5db;
+}
+
+.approveButton {
+  background-color: #10b981;
+  color: white;
+}
+
+.approveButton:hover {
+  background-color: #059669;
+}
+
+.rejectButton {
+  background-color: #ef4444;
+  color: white;
+}
+
+.rejectButton:hover {
+  background-color: #dc2626;
+} 

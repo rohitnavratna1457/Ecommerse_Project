@@ -1,6 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ShopProvider } from './context/ShopContext';
+import { AuthProvider } from './context/AuthContext';
+import AdminRoute from './components/auth/AdminRoute';
+import SellerRoute from './components/auth/SellerRoute';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import Nav from './components/Nav';
 import Home from './components/Home';
 import Products from './components/Products';
@@ -8,41 +12,99 @@ import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import Login from './components/Login';
 import Checkout from './components/Checkout';
-import PrivateRoute from './components/PrivateRoute';
 import SignUp from './components/SignUp';
 import Footer from './components/Footer';
 import Wishlist from './components/Wishlist';
-import Rohit from './components/Rohit';
+import SellerLogin from './components/SellerLogin';
+import NewDashboard from './components/NewDashbaord/dashboard/DashboardLayout';
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import Unauthorized from './components/Unauthorized';
+import SellerRegister from './components/SellerRegister';
+import SuperAdminDashboard from './components/SuperAdminDashbaord/SuperAdminDashboard'
+
+import './App.css';
+
 const App = () => {
   return (
-    <ShopProvider>
-      <Router>
-        <div className="app">
-          <Nav />
-          <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/rohit" element={<Rohit />} />
-              <Route 
-                path="/checkout" 
-                element={
-                  <PrivateRoute>
-                    <Checkout />
-                  </PrivateRoute>
-                } 
-              />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </ShopProvider>
+    <AuthProvider>
+      <ShopProvider>
+        <Router>
+          <div className="app">
+            {!window.location.pathname.includes('/dashboard') && <Nav />}
+            <main className="main-content">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/seller-login" element={<SellerLogin />} />
+                <Route path='/seller-register' element={<SellerRegister/>}/>
+                <Route path="/unauthorized" element={<Unauthorized />} />
+                 {/* Super Admin Routes */}
+                 <Route 
+                  path="/superadmin/dashboard/*" 
+                  element={
+                    // <ProtectedRoute allowedRoles={['Seller']}>
+                      <SuperAdminDashboard />
+                    // </ProtectedRoute>
+                  } 
+                />
+                 {/* Seller Routes */}
+                 <Route 
+                  path="/seller/dashboard/*" 
+                  element={
+                    // <ProtectedRoute allowedRoles={['Seller']}>
+                      <NewDashboard />
+                    // </ProtectedRoute>
+                  } 
+                />
+
+                {/* Admin Routes */}
+                <Route 
+                  path="/admin/dashboard/*" 
+                  element={
+                    <ProtectedRoute allowedRoles={['Admin']}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+
+                {/* Protected Routes */}
+                <Route 
+                  path="/cart" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Cart />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/checkout" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Checkout />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/wishlist" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Wishlist />
+                    </ProtectedRoute>
+                  } 
+                />
+
+               
+              </Routes>
+            </main>
+            {!window.location.pathname.includes('/dashboard') && <Footer />}
+          </div>
+        </Router>
+      </ShopProvider>
+    </AuthProvider>
   );
 };
 
