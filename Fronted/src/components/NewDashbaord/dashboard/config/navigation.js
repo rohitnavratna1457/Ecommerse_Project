@@ -123,4 +123,11 @@ export const navigationConfig = [
   //   icon: FaCog,
   //   url: '/seller/dashboard/settings'
   // }
+  {
+    id: 'addkyc',
+    title: 'Add KYC',
+    type: 'item',
+    icon: FaCog,
+    url: '/seller/dashboard/addkyc'
+  }
 ]; 

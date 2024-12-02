@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { ShopProvider, useShop } from './context/ShopContext';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ShopProvider } from './context/ShopContext';
+import { AuthProvider } from './context/AuthContext';
+import AdminRoute from './components/auth/AdminRoute';
+import SellerRoute from './components/auth/SellerRoute';
+import ProtectedRoute from './components/auth/ProtectedRoute';
 import Nav from './components/Nav';
 import Home from './components/Home';
 import Products from './components/Products';
@@ -8,67 +12,63 @@ import ProductDetails from './components/ProductDetails';
 import Cart from './components/Cart';
 import Login from './components/Login';
 import Checkout from './components/Checkout';
-import PrivateRoute from './components/PrivateRoute';
 import SignUp from './components/SignUp';
 import Footer from './components/Footer';
 import Wishlist from './components/Wishlist';
-import Rohit from './components/Rohit';
 import SellerLogin from './components/SellerLogin';
 import NewDashboard from './components/NewDashbaord/dashboard/DashboardLayout';
-import './App.css'
+import AdminDashboard from './components/AdminDashboard/AdminDashboard';
+import Unauthorized from './components/Unauthorized';
+import SellerRegister from './components/SellerRegister';
+import SuperAdminDashboard from './components/SuperAdminDashbaord/SuperAdminDashboard'
 
-const SellerRoute = ({ children }) => {
-  const { user, isSeller } = useShop();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user || !isSeller) {
-      navigate('/seller-login');
-    }
-  }, [user, isSeller, navigate]);
-
-  return user && isSeller ? children : null;
-};
+import './App.css';
 
 const App = () => {
   return (
-    <ShopProvider>
-      <Router>
-        <div className="app">
-          {!window.location.pathname.includes('/seller/dashboard') && <Nav />}
-          <main className="main-content">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/products" element={<Products />} />
-              <Route path="/product/:id" element={<ProductDetails />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/rohit" element={<Rohit />} />
-              <Route 
-                path="/checkout" 
-                element={
-                  <PrivateRoute>
-                    <Checkout />
-                  </PrivateRoute>
-                } 
-              />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/wishlist" element={<Wishlist />} />
-              <Route path="/seller-login" element={<SellerLogin />} />
-              <Route 
-                path="/seller/dashboard/*" 
-                element={
+    <AuthProvider>
+      <ShopProvider>
+        <Router>
+          <div className="app">
+            {!window.location.pathname.includes('/dashboard') && <Nav />}
+            <main className="main-content">
+              <Routes>
+                {/* Public Routes - No Authentication Required */}
+                <Route path="/" element={<Home />} />
+                <Route path="/products" element={<Products />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/seller-login" element={<SellerLogin />} />
+                <Route path="/seller-register" element={<SellerRegister/>} />
+                <Route path="/unauthorized" element={<Unauthorized />} />
+
+                {/* Protected Seller Routes */}
+                <Route path="/seller/dashboard/*" element={
                   <SellerRoute>
                     <NewDashboard />
                   </SellerRoute>
-                } 
-              />
-            </Routes>
-          </main>
-          {!window.location.pathname.includes('/seller/dashboard') && <Footer />}
-        </div>
-      </Router>
-    </ShopProvider>
+                } />
+
+                {/* Protected Admin Routes */}
+                <Route path="/admin/dashboard/*" element={
+                  <AdminRoute>
+                    <AdminDashboard />
+                  </AdminRoute>
+                } />
+
+                {/* Protected User Routes */}
+                <Route path="/cart" element={
+                  <ProtectedRoute>
+                    <Cart />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </main>
+            {!window.location.pathname.includes('/dashboard') && <Footer />}
+          </div>
+        </Router>
+      </ShopProvider>
+    </AuthProvider>
   );
 };
 

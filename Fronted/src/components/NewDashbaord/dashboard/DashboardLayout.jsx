@@ -6,7 +6,7 @@ import Dashboard from '../pages/dashboard';
 import Products from './components/products/Products';
 import Orders from './components/Orders';
 import Analytics from './components/Analytics';
-// import Settings from './components/Settings';
+import Addkyc from './components/kyc/AddKyc';
 import './DashboardLayout.css';
 
 const DashboardLayout = () => {
@@ -21,6 +21,7 @@ const DashboardLayout = () => {
           <Route path="/products/*" element={<Products />} />
           <Route path="/orders/*" element={<Orders />} />
           <Route path="/analytics/*" element={<Analytics />} />
+          <Route path="/addkyc/*" element={<Addkyc />} />
           {/* <Route path="/settings" element={<Settings />} /> */}
         </Routes>
       </main>

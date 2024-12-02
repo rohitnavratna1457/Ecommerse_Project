@@ -1,160 +1,107 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { useShop } from '../context/ShopContext';
-// import './Login.css';
-// import { getlogin } from '../Api/CoreApi';
-
-// const Login = () => {
-//   const navigate = useNavigate();
-//   const { login } = useShop();
-//   const [formData, setFormData] = useState({
-//     email: '',
-//     password: ''
-//   });
-
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-//     // Simulate login
-//     login({
-//       name: 'User',
-//       email: formData.email
-//     });
-//     navigate(-1); // Go back to previous page
-//   };
-//   const handleChange = () =>{
-
-//   }
-
-//   return (
-//     <div className="login-container">
-//       <div className="login-box">
-//         <div className="login-header">
-//           <h2>Login</h2>
-//           <p>Get access to your Orders, Wishlist and Recommendations</p>
-//         </div>
-//         <form onSubmit={handleSubmit}>
-//           <div className="form-group">
-//             <input
-//               type="email"
-//               name="email"
-//               placeholder="Email Address"
-//               value={formData.email}
-//               onChange={handleChange}
-//               required
-//             />
-//           </div>
-//           <div className="form-group">
-//             <input
-//               type="password"
-//               name="password"
-//               placeholder="Password"
-//               value={formData.password}
-//               onChange={handleChange}
-//               required
-//             />
-//           </div>
-//           <button type="submit" className="submit-btn">
-//             Login
-//           </button>
-//         </form>
-//         <p className="toggle-form">
-//           Don't have an account?
-//           <button
-//             className="toggle-btn"
-//             onClick={() => navigate('/signup')}
-//           >
-//             Sign Up
-//           </button>
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Login;
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useShop } from "../context/ShopContext";
-import "./Login.css";
-import { getlogin } from "../Api/CoreApi";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getlogin } from '../Api/CoreApi';
+import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useShop();
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [credentials, setCredentials] = useState({
+    email: '',
+    password: ''
+  });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting form with:", formData);
-    navigate("/rohit");
+    setIsLoading(true);
+    setError('');
   
     try {
-      // Sending login request to the server
-      const response = await getlogin(formData);
-    
-  
-      // Check if login is successful
-      if (response && response.success) {
-        // Assuming `login` is a function from context to save user details
-        login({ name: response.name, email: response.email });
-       
-  
-        // Navigate to '/rohit' after successful login
-       
+      const response = await getlogin(credentials);
+      
+      if (response.access) {
+        localStorage.setItem('refresh', response.refresh);
+        localStorage.setItem('access', response.access);
+        localStorage.setItem('user_type', response.user.user_type);
+
+        // Navigate based on user type
+        switch (response.user.user_type) {
+          case 'Customer':
+            navigate('/dashboard');
+            break;
+          case 'Admin':
+            navigate('/admin/dashboard');
+            break;
+          default:
+            setError('Invalid user type');
+            localStorage.clear();
+        }
       } else {
-        // Show error message if login fails
-        alert(response?.message || "Invalid credentials.");
+        setError('Invalid response from server');
       }
-    } catch (error) {
-      // Log any errors and show a generic error message
-      console.error("Error during login:", error);
-      alert("Login failed. Please try again.");
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
-  
-  
-
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
     <div className="login-container">
       <div className="login-box">
-        <div className="login-header">
-          <h2>Login</h2>
-          <p>Get access to your Orders, Wishlist and Recommendations</p>
-        </div>
+        <h2>Welcome Back</h2>
+        {error && <div className="error-message">{error}</div>}
+
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="input-group">
             <input
               type="email"
               name="email"
-              placeholder="Email Address"
-              value={formData.email}
+              placeholder="Email"
+              value={credentials.email}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="form-group">
+
+          <div className="input-group">
             <input
               type="password"
               name="password"
               placeholder="Password"
-              value={formData.password}
+              value={credentials.password}
               onChange={handleChange}
               required
             />
           </div>
-          <button type="submit" className="submit-btn">
-            Login
+
+          <button
+            type="submit"
+            className="login-button single-button"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
+
+          <div className="login-links">
+            <button
+              onClick={() => navigate('/signup')}
+              className="link-btn"
+            >
+              Create new account? Register now
+            </button>
+           
+          </div>
         </form>
-        <p className="toggle-form">
-          Don't have an account?{" "}
-          <button className="toggle-btn" onClick={() => navigate("/signup")}>
-            Sign Up
-          </button>
-        </p>
       </div>
     </div>
   );

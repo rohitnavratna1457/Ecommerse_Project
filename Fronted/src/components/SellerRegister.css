@@ -10,7 +10,7 @@
   color: #333;
 } */
 
-.login-container {
+.register-container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -18,27 +18,21 @@
   height: 100%;
 }
 
-.login-box {
+.register-box {
   background: #fff;
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
+}
+
+.register-title {
   text-align: center;
-}
-
-.store-icon {
-  font-size: 4rem;
   color: #0072ff;
-  margin-bottom: 1rem;
-}
-
-h2 {
-  color: #0072ff;
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+  font-size: 2rem;
   font-weight: bold;
+  margin-bottom: 1.5rem;
 }
 
 .error-message {
@@ -50,13 +44,25 @@ h2 {
   font-size: 0.9rem;
 }
 
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  color: #0072ff;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
 .input-group {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
 }
 
-.input-group input {
+.input-group input,
+.input-group textarea {
   padding: 0.8rem;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -65,12 +71,18 @@ h2 {
   transition: border-color 0.3s ease;
 }
 
-.input-group input:focus {
+.input-group textarea {
+  resize: none;
+  height: 80px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
   border-color: #0072ff;
   box-shadow: 0 0 5px rgba(0, 114, 255, 0.5);
 }
 
-.login-button {
+.register-button {
   background: linear-gradient(to right, #0072ff, #00c6ff);
   color: #fff;
   padding: 0.8rem;
@@ -83,21 +95,25 @@ h2 {
   width: 100%;
 }
 
-.login-button:hover {
+.register-button:hover {
   background: linear-gradient(to right, #00c6ff, #0072ff);
   transform: translateY(-2px);
 }
 
-.login-button:disabled {
+.register-button:disabled {
   background: #aaa;
   cursor: not-allowed;
 }
 
-.seller-links {
+.button-section {
+  text-align: center;
+}
+
+.login-link {
   margin-top: 1rem;
 }
 
-.link-btn {
+.login-link button {
   background: none;
   border: none;
   color: #0072ff;
@@ -107,30 +123,27 @@ h2 {
   transition: color 0.3s ease;
 }
 
-.link-btn:hover {
+.login-link button:hover {
   color: #0056cc;
 }
 
 /* Responsive Design */
 @media (max-width: 480px) {
-  .login-box {
+  .register-box {
     padding: 1.5rem;
     width: 90%;
   }
 
-  .store-icon {
-    font-size: 3rem;
-  }
-
-  h2 {
+  .register-title {
     font-size: 1.5rem;
   }
 
-  .input-group input {
+  .input-group input,
+  .input-group textarea {
     font-size: 0.9rem;
   }
 
-  .login-button {
+  .register-button {
     font-size: 0.9rem;
   }
 }

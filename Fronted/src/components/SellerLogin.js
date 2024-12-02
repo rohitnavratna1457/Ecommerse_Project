@@ -1,141 +1,103 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useShop } from '../context/ShopContext';
-import { FaStore } from 'react-icons/fa';
+import { loginSeller } from '../Api/CoreApi';
 import './SellerLogin.css';
+import { FaStore } from 'react-icons/fa';    
 
 const SellerLogin = () => {
-  const { login, user, isSeller } = useShop();
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
+  const [credentials, setCredentials] = useState({
     email: '',
-    password: '',
-    businessName: '',
-    gstin: '',
-    phone: '',
-    address: ''
+    password: ''
   });
-
-  useEffect(() => {
-    if (user && isSeller) {
-      navigate('/seller/dashboard');
-    }
-  }, [user, isSeller, navigate]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      login({
-        ...formData,
-        isSeller: true
-      });
-      navigate('/seller/dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
-  };
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+    setCredentials({
+      ...credentials,
+      [e.target.name]: e.target.value,
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+  
+    try {
+      const response = await loginSeller(credentials);
+      
+      if (response.access) {
+        localStorage.setItem('refresh', response.refresh);
+        localStorage.setItem('access', response.access);
+        localStorage.setItem('user_type', 'Seller');
+        navigate('/seller/dashboard');
+      } else {
+        setError('Invalid response from server');
+      }
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="seller-login-container">
-      <div className="seller-login-box">
-        <div className="seller-login-header">
-          <FaStore className="store-icon" />
-          <h2>{isLogin ? 'Seller Login' : 'Register as Seller'}</h2>
-          <p>{isLogin ? 'Login to manage your business' : 'Start selling on ShopCart'}</p>
-        </div>
+    <div className="login-container">
+      <div className="login-box">
+        <FaStore className="store-icon" />
+        <h2> Welcome Back</h2>
+        {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          {!isLogin && (
-            <>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="businessName"
-                  placeholder="Business Name"
-                  value={formData.businessName}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  name="gstin"
-                  placeholder="GSTIN Number"
-                  value={formData.gstin}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <textarea
-                  name="address"
-                  placeholder="Business Address"
-                  value={formData.address}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-            </>
-          )}
-
-          <div className="form-group">
+          {/* Email Input */}
+          <div className="input-group">
             <input
               type="email"
               name="email"
-              placeholder="Email Address"
-              value={formData.email}
+              placeholder="Email"
+              value={credentials.email}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="form-group">
+
+          {/* Password Input */}
+          <div className="input-group">
             <input
               type="password"
               name="password"
               placeholder="Password"
-              value={formData.password}
+              value={credentials.password}
               onChange={handleChange}
               required
             />
           </div>
 
-          <button type="submit" className="submit-btn">
-            {isLogin ? 'Login as Seller' : 'Register as Seller'}
-          </button>
-        </form>
-
-        <div className="toggle-form">
-          {isLogin ? "Don't have a seller account?" : "Already have a seller account?"}
+          {/* Submit Button */}
           <button
-            type="button"
-            className="toggle-btn"
-            onClick={() => setIsLogin(!isLogin)}
+            type="submit"
+            className="login-button single-button"
+            disabled={isLoading}
           >
-            {isLogin ? 'Register Now' : 'Login'}
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
-        </div>
+
+          {/* Link to Register */}
+          <div className="seller-links">
+            <button
+              onClick={() => navigate('/seller-register')}
+              className="link-btn"
+            >
+              Create new account? Register now
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default SellerLogin; 
+export default SellerLogin;
