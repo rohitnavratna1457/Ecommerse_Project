@@ -1,0 +1,166 @@
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Inter', sans-serif;
+}
+
+.dashboard-sidebar {
+  width: 280px;
+  background: linear-gradient(180deg, #1a237e 0%, #283593 100%);
+  color: white;
+  padding: 20px 0;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 0 24px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-nav {
+  padding: 10px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 4px 12px;
+  border-radius: 8px;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.nav-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-item svg {
+  margin-right: 12px;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.nav-item span {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.dashboard-main {
+  flex: 1;
+  margin-left: 280px;
+  padding: 84px 30px 30px;
+  transition: all 0.3s ease;
+}
+
+/* Card Styles */
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+.dashboard-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dashboard-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th {
+  background: #f8f9fa;
+  padding: 16px;
+  font-weight: 600;
+  color: #444;
+  text-align: left;
+  border-bottom: 2px solid #eee;
+}
+
+.dashboard-table td {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Button Styles */
+.dashboard-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dashboard-btn-primary {
+  background: #1a237e;
+  color: white;
+}
+
+.dashboard-btn-primary:hover {
+  background: #283593;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-sidebar {
+    width: 80px;
+  }
+
+  .dashboard-main {
+    margin-left: 80px;
+  }
+
+  .nav-item span,
+  .sidebar-header h2 {
+    display: none;
+  }
+
+  .nav-item {
+    padding: 12px;
+    justify-content: center;
+  }
+
+  .nav-item svg {
+    margin-right: 0;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    padding: 84px 15px 15px;
+  }
+} 

@@ -1,11 +1,12 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
-const ShopContext = createContext();
+export const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
   const [user, setUser] = useState(null);
+  const [isSeller, setIsSeller] = useState(false);
   const [products, setProducts] = useState([]);
 
   // Cart functions
@@ -60,11 +61,32 @@ export const ShopProvider = ({ children }) => {
   // User functions
   const login = (userData) => {
     setUser(userData);
+    if (userData.isSeller) {
+      setIsSeller(true);
+      localStorage.setItem('isSeller', 'true');
+    }
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
+    setIsSeller(false);
+    localStorage.removeItem('user');
+    localStorage.removeItem('isSeller');
   };
+
+  // Check for existing session on load
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    const storedIsSeller = localStorage.getItem('isSeller');
+    
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    if (storedIsSeller) {
+      setIsSeller(true);
+    }
+  }, []);
 
   // Calculate cart total
   const getCartTotal = () => {
@@ -93,7 +115,8 @@ export const ShopProvider = ({ children }) => {
         getCartCount,
         addToWishlist,
         removeFromWishlist,
-        isInWishlist
+        isInWishlist,
+        isSeller
       }}
     >
       {children}

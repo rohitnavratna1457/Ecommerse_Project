@@ -1,0 +1,157 @@
+.orders-container {
+  padding: 20px;
+}
+
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.orders-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.completed {
+  background: #d4edda;
+  color: #155724;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.view-btn, .update-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-btn {
+  background: #17a2b8;
+  color: white;
+}
+
+.update-btn {
+  background: #ffc107;
+  color: #000;
+}
+
+.view-btn:hover {
+  background: #138496;
+}
+
+.update-btn:hover {
+  background: #e0a800;
+}
+
+.order-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-item {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 5px;
+}
+
+.stat-value.processing {
+  color: #f0ad4e;
+}
+
+.stat-value.to-ship {
+  color: #5bc0de;
+}
+
+.stat-value.completed {
+  color: #5cb85c;
+}
+
+.status.processing {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.confirmed {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status.delivered {
+  background: #d4edda;
+  color: #155724;
+}
+
+.process-btn {
+  background: #ffc107;
+  color: #000;
+}
+
+.invoice-btn {
+  background: #6c757d;
+  color: white;
+}
+
+.process-btn:hover {
+  background: #e0a800;
+}
+
+.invoice-btn:hover {
+  background: #5a6268;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .order-stats {
+    flex-direction: column;
+  }
+
+  .stat-item {
+    width: 100%;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-buttons button {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+} 

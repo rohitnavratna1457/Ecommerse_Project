@@ -76,15 +76,24 @@ const Home = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return <div className="loading">
+      <div className="wrapper">
+        <div className="circle" />
+        <div className="circle" />
+        <div className="circle" />
+        <div className="shadow" />
+        <div className="shadow" />
+        <div className="shadow" />
+      </div>
+    </div>;
   }
 
   return (
     <div className="home">
       {/* Banner Slider */}
       <div className="banner-container">
-        <div 
-          className="banner-slider" 
+        <div
+          className="banner-slider"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {bannerImages.map((image, index) => (

@@ -1,0 +1,101 @@
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background: #1a1f37;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+}
+
+.sidebarHeader {
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebarHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.navigation {
+  padding: 20px 0;
+}
+
+.navItemContainer {
+  margin-bottom: 5px;
+}
+
+.navItem {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navItemContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  font-size: 1.2rem;
+  min-width: 24px;
+}
+
+.title {
+  font-size: 0.9rem;
+}
+
+.active {
+  background: #2d3867;
+}
+
+.collapseIcon {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.subMenu {
+  padding-left: 54px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.navChild {
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+.navChild:hover {
+  color: #fff;
+}
+
+/* Scrollbar Styling */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+} 
