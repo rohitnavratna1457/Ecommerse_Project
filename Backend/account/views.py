@@ -29,7 +29,7 @@ class UserRegistrationView(APIView):
           serializer = UserRegistrationSerializer(data=request.data)
           if serializer.is_valid():
               user=serializer.save()
-              if request.data.get('user_type')=='Seller':    # Usertype seller ... 
+              if request.data.get('user_type')=='Seller':
                   SellerDetail.objects.create(
                        seller_id=user,
                        bussiness_name=request.data.get('bussiness_name'),
@@ -71,53 +71,26 @@ class Seller_Login(APIView):
                     "user_type": user.user_type,
                 }
             }, status=status.HTTP_200_OK)
+          
         return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-class Admin_Login(APIView):
-    def post(self, request):
-        email = request.data.get('email')
-        password = request.data.get('password')
-        user = authenticate(email=email, password=password)
+# class Admin_Login(APIView):
+#     def post(self, request):
+#         # Retrieve email and password from the request
+#         email = request.data.get('email')
+#         password = request.data.get('password')
 
-        print(user, '********** user **********')
+#         # Authenticate the user
+#         user = authenticate(email=email, password=password)
 
-        if user:
-            # Login was successful
-            return Response({'success': True, 'message': 'Login successful'}, status=200)
-        else:
-            # Login failed
-            return Response({'success': False, 'message': 'Invalid credentials'}, status=401)
-           
- 
-
-class SignupView(APIView):
-    def post(self, request, format=None):
-        # Check if email already exists
-        email = request.data.get('email')
-        if User.objects.filter(email=email).exists():
-            return Response(
-                {'error': 'Email already exists'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        serializer = UserRegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            tokens = get_tokens_for_user(user)
-            
-            return Response({
-                'message': 'Registration successful',
-                'tokens': tokens,
-                'user': {
-                    'id': user.user_id,
-                    'email': user.email,
-                    'name': user.name,
-                    'user_type': user.user_type
-                }
-            }, status=status.HTTP_201_CREATED)
-        
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
+#         # Check if authentication was successful
+#         if user is not None:
+#             # Check if the user has admin privileges
+#             if user:
+#                 login(request, user)  # Log the user in
+#                 return Response({'success': True, 'message': 'Login successful','user_type':user.user_type}, status=200)
+#             else:
+#                 return Response({'success': False, 'message': 'You do not have admin privileges'}, status=403)
+#         else:
+#             # Handle invalid credentials
+#             return Response({'success': False, 'message': 'Invalid email or password'},)

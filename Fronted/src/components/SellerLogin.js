@@ -1,44 +1,66 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginSeller } from '../Api/CoreApi';
-import './SellerLogin.css';
-import { FaStore } from 'react-icons/fa';    
+import { loginUser } from '../Api/CoreApi';
+import './Login.css';
 
-const SellerLogin = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: '',
-    password: ''
+    password: '',
+    loginType: '' // Will be used to differentiate login type if required
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle input field changes
   const handleChange = (e) => {
     setCredentials({
       ...credentials,
       [e.target.name]: e.target.value,
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-  
+
     try {
-      const response = await loginSeller(credentials);
-      
-      if (response.access) {
+      // Make API call to login
+      const response = await loginUser(credentials);
+      console.log('Login Response:', response); // Debugging: log API response
+
+      // Check if response contains necessary fields
+      if (response.access && response.user.user_type) {
+        // Save to localStorage
         localStorage.setItem('refresh', response.refresh);
         localStorage.setItem('access', response.access);
-        localStorage.setItem('user_type', 'Seller');
-        navigate('/seller/dashboard');
+        localStorage.setItem('user_type', response.user.user_type);
+
+        // Navigate based on user type
+        switch (response.user.user_type) {
+          case 'SuperAdmin':
+            console.log('Navigating to Admin dashboard');
+            navigate('/superadmin/dashboard/*');
+            break;
+          case 'Admin':
+            console.log('Navigating to Admin dashboard');
+            navigate('/admin/dashboard/*');
+            break;
+          case 'Seller':
+            console.log('Navigating to Seller dashboard');
+            navigate('/seller/dashboard/*');
+            break;
+          default:
+            console.error('Unknown user type:', response.user_type);
+            setError('Unknown user type. Please contact support.');
+        }
       } else {
-        setError('Invalid response from server');
+        setError('Unexpected server response. Please try again.');
       }
     } catch (err) {
       console.error('Login Error:', err);
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      setError('Invalid credentials. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -47,8 +69,7 @@ const SellerLogin = () => {
   return (
     <div className="login-container">
       <div className="login-box">
-        <FaStore className="store-icon" />
-        <h2> Welcome Back</h2>
+        <h2>Welcome Back</h2>
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleSubmit}>
@@ -100,4 +121,4 @@ const SellerLogin = () => {
   );
 };
 
-export default SellerLogin;
+export default Login;

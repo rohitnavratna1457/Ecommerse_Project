@@ -1,20 +1,18 @@
-import { Navigate } from 'react-router-dom';
-import { verifyToken } from '../../utils/auth';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const SellerRoute = ({ children }) => {
-  const token = localStorage.getItem('access');
-  const userType = localStorage.getItem('user_type');
-  const isValid = token && verifyToken(token);
-  
-  if (!isValid) {
-    localStorage.clear();
-    return <Navigate to="/seller-login" />;
+  const { user, loading, isSeller } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
-  
-  if (userType !== 'Seller') {
-    return <Navigate to="/unauthorized" />;
+
+  if (!user || !isSeller()) {
+    return <Navigate to="/seller/dashboard" state={{ from: location }} replace />;
   }
-  
+
   return children;
 };
 

@@ -20,6 +20,7 @@ import NewDashboard from './components/NewDashbaord/dashboard/DashboardLayout';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Unauthorized from './components/Unauthorized';
 import SellerRegister from './components/SellerRegister';
+import SuperAdminDashboard from './components/SuperAdminDashbaord/SuperAdminDashboard'
 
 import './App.css';
 
@@ -32,36 +33,71 @@ const App = () => {
             {!window.location.pathname.includes('/dashboard') && <Nav />}
             <main className="main-content">
               <Routes>
-                {/* Public Routes - No Authentication Required */}
+                {/* Public Routes */}
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/seller-login" element={<SellerLogin />} />
-                <Route path="/seller-register" element={<SellerRegister/>} />
+                <Route path='/seller-register' element={<SellerRegister/>}/>
                 <Route path="/unauthorized" element={<Unauthorized />} />
+                 {/* Super Admin Routes */}
+                 <Route 
+                  path="/superadmin/dashboard/*" 
+                  element={
+                    // <ProtectedRoute allowedRoles={['Seller']}>
+                      <SuperAdminDashboard />
+                    // </ProtectedRoute>
+                  } 
+                />
+                 {/* Seller Routes */}
+                 <Route 
+                  path="/seller/dashboard/*" 
+                  element={
+                    // <ProtectedRoute allowedRoles={['Seller']}>
+                      <NewDashboard />
+                    // </ProtectedRoute>
+                  } 
+                />
 
-                {/* Protected Seller Routes */}
-                <Route path="/seller/dashboard/*" element={
-                  <SellerRoute>
-                    <NewDashboard />
-                  </SellerRoute>
-                } />
+                {/* Admin Routes */}
+                <Route 
+                  path="/admin/dashboard/*" 
+                  element={
+                    // <ProtectedRoute allowedRoles={['Admin']}>
+                      <AdminDashboard />
+                    // </ProtectedRoute>
+                  } 
+                />
 
-                {/* Protected Admin Routes */}
-                <Route path="/admin/dashboard/*" element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                } />
+                {/* Protected Routes */}
+                <Route 
+                  path="/cart" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Cart />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/checkout" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Checkout />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/wishlist" 
+                  element={
+                    <ProtectedRoute allowedRoles={['user', 'Seller', 'Admin']}>
+                      <Wishlist />
+                    </ProtectedRoute>
+                  } 
+                />
 
-                {/* Protected User Routes */}
-                <Route path="/cart" element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                } />
+               
               </Routes>
             </main>
             {!window.location.pathname.includes('/dashboard') && <Footer />}

@@ -1,149 +1,160 @@
-/* General Reset */
-/* body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to bottom right, #00c6ff, #0072ff);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  color: #333;
-} */
+/* SellerRegister.css */
 
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.register-box {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
-}
-
-.register-title {
-  text-align: center;
-  color: #0072ff;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-}
-
-.error-message {
-  background: rgba(255, 0, 0, 0.1);
-  color: #ff0000;
-  padding: 0.5rem;
-  border-radius: 5px;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-.form-section {
-  margin-bottom: 1.5rem;
-}
-
-.section-title {
-  color: #0072ff;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-}
-
-.input-group {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.input-group input,
-.input-group textarea {
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.3s ease;
-}
-
-.input-group textarea {
-  resize: none;
-  height: 80px;
-}
-
-.input-group input:focus,
-.input-group textarea:focus {
-  border-color: #0072ff;
-  box-shadow: 0 0 5px rgba(0, 114, 255, 0.5);
-}
-
-.register-button {
-  background: linear-gradient(to right, #0072ff, #00c6ff);
-  color: #fff;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background 0.3s ease, transform 0.2s ease;
-  width: 100%;
-}
-
-.register-button:hover {
-  background: linear-gradient(to right, #00c6ff, #0072ff);
-  transform: translateY(-2px);
-}
-
-.register-button:disabled {
-  background: #aaa;
-  cursor: not-allowed;
-}
-
-.button-section {
-  text-align: center;
-}
-
-.login-link {
-  margin-top: 1rem;
-}
-
-.login-link button {
-  background: none;
-  border: none;
-  color: #0072ff;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.login-link button:hover {
-  color: #0056cc;
-}
-
-/* Responsive Design */
-@media (max-width: 480px) {
-  .register-box {
-    padding: 1.5rem;
-    width: 90%;
+.seller-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 20px;
   }
-
-  .register-title {
-    font-size: 1.5rem;
+  
+  .seller-box {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    padding: 30px;
   }
-
-  .input-group input,
-  .input-group textarea {
-    font-size: 0.9rem;
+  
+  .seller-header {
+    text-align: center;
+    margin-bottom: 20px;
   }
-
-  .register-button {
-    font-size: 0.9rem;
+  
+  .seller-header h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0 0;
   }
-}
+  
+  .seller-icon {
+    font-size: 36px;
+    color: #007bff;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+  
+  .form-group label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .input-icon {
+    margin-right: 8px;
+    color: #007bff;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  input:focus, textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .seller-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .seller-btn:hover {
+    background: #0056b3;
+  }
+  
+  .seller-links {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .link-btn {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .link-btn:hover {
+    color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+      gap: 25px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .seller-box {
+      padding: 20px;
+    }
+  
+    .seller-header h2 {
+      font-size: 20px;
+    }
+  
+    .seller-icon {
+      font-size: 32px;
+    }
+  
+    .seller-btn {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    input, textarea {
+      font-size: 13px;
+      padding: 8px;
+    }
+  }
+  

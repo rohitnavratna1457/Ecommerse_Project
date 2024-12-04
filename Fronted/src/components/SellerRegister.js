@@ -1,196 +1,188 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sellerRegister } from '../Api/CoreApi';
+import { FaStore, FaUser, FaBuilding, FaIdCard, FaPhone, FaMapMarkerAlt, FaEnvelope, FaLock } from 'react-icons/fa';
 import './SellerRegister.css';
-import { message } from 'antd';
 
 const SellerRegister = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: '',
-    password2: '',
     mobile_no: '',
     address: '',
+    password: '',
+    password2: '',
     bussiness_name: '',
     bussiness_address: '',
+    image: [],
     bussiness_mobile_no: '',
     user_type: 'Seller'
   });
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    // Validate passwords match
     if (formData.password !== formData.password2) {
       setError('Passwords do not match');
-      setIsLoading(false);
       return;
     }
 
     try {
       const response = await sellerRegister(formData);
-      console.log(formData)
-      navigate('/seller-login');
-      
-    } catch (err) {
-      console.error('Registration Error:', err);
-      if (err.response?.data) {
-        // Handle specific field errors from backend
-        const errors = Object.entries(err.response.data)
-          .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
-          .join('\n');
-        setError(errors);
-        message.error('Please check all required fields.');
-      } else {
-        setError('Registration failed. Please try again.');
-        message.error('Registration failed. Please try again later.');
+     
+      if (response.status === 'success') {
+        navigate('/seller-login');
       }
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      setError(error.message || 'Registration failed');
     }
   };
 
   return (
-    <div className="register-container">
-      <div className="register-box">
-        <h2 className="register-title">Seller Registration</h2>
+    <div className="seller-container">
+      <div className="seller-box seller-register-box">
+        <div className="seller-header">
+          <FaStore className="seller-icon" />
+          <h2>Seller Registration</h2>
+        </div>
         {error && <div className="error-message">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="register-form">
-          {/* Personal Information Section */}
-          <div className="form-section">
-            <h3 className="section-title">Personal Information</h3>
-            <div className="input-group">
+        <form onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-group">
+              <label>
+                <FaUser className="input-icon" />
+                Name
+              </label>
               <input
                 type="text"
-                name="name"
-                placeholder="Full Name"
                 value={formData.name}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
                 required
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
+              <label>
+                <FaEnvelope className="input-icon" />
+                Email
+              </label>
               <input
                 type="email"
-                name="email"
-                placeholder="Email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 required
               />
             </div>
-            <div className="input-group">
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>
+                <FaPhone className="input-icon" />
+                Mobile No
+              </label>
               <input
                 type="tel"
-                name="mobile_no"
-                placeholder="Mobile Number"
                 value={formData.mobile_no}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, mobile_no: e.target.value})}
                 required
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
+              <label>
+                <FaMapMarkerAlt className="input-icon" />
+                Address
+              </label>
               <textarea
-                name="address"
-                placeholder="Personal Address"
                 value={formData.address}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, address: e.target.value})}
                 required
               />
             </div>
           </div>
 
-          {/* Business Information Section */}
-          <div className="form-section">
-            <h3 className="section-title">Business Information</h3>
-            <div className="input-group">
-              <input
-                type="text"
-                name="bussiness_name"
-                placeholder="Business Name"
-                value={formData.bussiness_name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="input-group">
-              <textarea
-                name="bussiness_address"
-                placeholder="Business Address"
-                value={formData.bussiness_address}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="input-group">
-              <input
-                type="tel"
-                name="bussiness_mobile_no"
-                placeholder="Business Contact Number"
-                value={formData.bussiness_mobile_no}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-
-          {/* Password Section */}
-          <div className="form-section">
-            <h3 className="section-title">Security</h3>
-            <div className="input-group">
+          <div className="form-row">
+            <div className="form-group">
+              <label>
+                <FaLock className="input-icon" />
+                Password
+              </label>
               <input
                 type="password"
-                name="password"
-                placeholder="Password"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
                 required
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
+              <label>
+                <FaLock className="input-icon" />
+                Confirm Password
+              </label>
               <input
                 type="password"
-                name="password2"
-                placeholder="Confirm Password"
                 value={formData.password2}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, password2: e.target.value})}
                 required
               />
             </div>
           </div>
 
-          {/* Button Section */}
-          <div className="button-section">
-            <button
-              type="submit"
-              className="register-button"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Registering...' : 'Register as Seller'}
+          <div className="form-group">
+            <label>
+              <FaBuilding className="input-icon" />
+              Business Name
+            </label>
+            <input
+              type="text"
+              value={formData.bussiness_name}
+              onChange={(e) => setFormData({...formData, bussiness_name: e.target.value})}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>
+              <FaMapMarkerAlt className="input-icon" />
+              Business Address
+            </label>
+            <textarea
+              value={formData.bussiness_address}
+              onChange={(e) => setFormData({...formData, bussiness_address: e.target.value})}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>
+              <FaPhone className="input-icon" />
+              Business Mobile No
+            </label>
+            <input
+              type="tel"
+              value={formData.bussiness_mobile_no}
+              onChange={(e) => setFormData({...formData, bussiness_mobile_no: e.target.value})}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>
+              Image
+            </label>
+            <input
+              type="file"
+              multiple
+              onChange={(e) => setFormData({...formData, image: Array.from(e.target.files)})}
+              required
+            />
+          </div>
+
+          <button type="submit" className="seller-btn">Register</button>
+          <div className="seller-links">
+            <button onClick={() => navigate('/seller-login')} className="link-btn">
+              Already have an account? Login
             </button>
-            
-            <div className="login-link">
-              <button
-                onClick={() => navigate('/seller-login')}
-                type="button"
-              >
-                Already have an account? Login
-              </button>
-            </div>
           </div>
         </form>
       </div>

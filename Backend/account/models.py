@@ -2,51 +2,59 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
 from .managers import UserManager
 from django.conf import settings
-
+from django.contrib.auth.hashers import make_password
 
  # Abstact User using to RestFramework 
 class User(AbstractBaseUser):
-  #for user registration
-  USER_TYPES = (
-    ("SuperAdmin", "SuperAdmin"),
-    ("Admin", "Admin"),
-    ("Seller", "Seller"),
-    ("Customer", "Customer"),
-  )
-  user_id   = models.AutoField(primary_key=True)
-  email     = models.EmailField(verbose_name='Email',max_length=255,unique=True,)
-  name      = models.CharField(max_length=200)
-  mobile_no = models.CharField(max_length=10)
-  user_type = models.CharField(max_length=255, choices=USER_TYPES,null=False)
-  # user_type = models.CharField(max_length=50, )
-  is_status = models.BooleanField(default=False)
-  is_admin  = models.BooleanField(default=False)
-  address   =models.TextField()
-  objects   = UserManager()
-  
-  USERNAME_FIELD = 'email'
-  REQUIRED_FIELDS = ['name', 'mobile_no'] 
+    USER_TYPES = (
+        ("SuperAdmin", "SuperAdmin"),
+        ("Admin", "Admin"),
+        ("Seller", "Seller"),
+        ("Customer", "Customer"),
+    )
 
-  def _str_(self):
-      return self.email
-    #   return self.Role_id
+    user_id = models.AutoField(primary_key=True)
+    email = models.EmailField(verbose_name='Email', max_length=255, unique=True)
+    name = models.CharField(max_length=200)
+    mobile_no = models.CharField(max_length=10)
+    user_type = models.CharField(max_length=255, choices=USER_TYPES, null=False)
+    is_status = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)  # Superuser flag
+    address = models.TextField()
 
-  def has_perm(self, perm, obj=None):
-      "Does the user have a specific permission?"
-      # Simplest possible answer: Yes, always
-      return self.is_admin
-  def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app app_label?"
-        # Simplest possible answer: Yes, always
+    objects = UserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['name', 'mobile_no']
+
+    def __str__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        """
+        Does the user have a specific permission?
+        """
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        """
+        Does the user have permissions to view the app `app_label`?
+        """
         return True
 
-  @property
-  def is_staff(self):
-        "Is the user a member of staff?"
-        # Simplest possible answer: All admins are staff
+    @property
+    def is_staff(self):
+        """
+        Is the user a member of staff?
+        """
         return self.is_admin
-    
-    
+
+    def save(self, *args, **kwargs):
+        # Ensure password is hashed before saving
+        if self.password and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
     
 # Seller extra details()
 class SellerDetail(models.Model):

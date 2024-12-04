@@ -14,7 +14,7 @@ import Overview from './component/Overview';
 import Category from './component/Category';
 import Subcategory from './component/Subcategory';
 import Products from './component/Products';
-import Seller from './component/Seller';
+import Seller from './component/Sellers';
 import './SuperAdminDashboard.css';
 
 const { Header, Sider, Content } = Layout;
@@ -27,32 +27,32 @@ const SuperAdminDashboard = () => {
         {
             key: 'overview',
             icon: <DashboardOutlined />,
-            label: <Link to="/super-admin/overview">Overview</Link>
+            label: <Link to="/superadmin/dashboard/overview">Overview</Link>
         },
         {
             key: 'categories',
             icon: <AppstoreOutlined />,
-            label: <Link to="/super-admin/categories">Categories</Link>
+            label: <Link to="/superadmin/dashboard/categories">Categories</Link>
         },
         {
             key: 'subcategories',
             icon: <AppstoreOutlined />,
-            label: <Link to="/super-admin/subcategories">Subcategories</Link>
+            label: <Link to="/superadmin/dashboard/subcategories">Subcategories</Link>
         },
         {
             key: 'products',
             icon: <ShoppingOutlined />,
-            label: <Link to="/super-admin/products">Products</Link>
+            label: <Link to="/superadmin/dashboard/products">Products</Link>
         },
         {
             key: 'sellers',
             icon: <TeamOutlined />,
-            label: <Link to="/super-admin/sellers">Sellers</Link>
+            label: <Link to="/superadmin/dashboard/sellers">Sellers</Link>
         },
         {
             key: 'settings',
             icon: <SettingOutlined />,
-            label: <Link to="/super-admin/settings">Settings</Link>
+            label: <Link to="/superadmin/dashboard/settings">Settings</Link>
         }
     ];
 
