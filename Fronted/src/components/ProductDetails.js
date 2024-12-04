@@ -1,144 +1,153 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useShop } from '../context/ShopContext';
-import './ProductDetails.css';
+import { Card, Row, Col, Button, Image, Rate, Tag, message, Spin } from 'antd';
+import { ShoppingCartOutlined, HeartOutlined, HeartFilled, ArrowLeftOutlined } from '@ant-design/icons';
+import API from '../Api/Api';
 
 const ProductDetails = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { addToCart } = useShop();
-  const [quantity, setQuantity] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [product, setProduct] = useState(null);
+    const { id } = useParams();
+    const navigate = useNavigate();
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [isWishlisted, setIsWishlisted] = useState(false);
 
-  useEffect(() => {
-    // Fetch product details
-    // For now using the sample data
-    setProduct({
-      id: parseInt(id),
-      name: 'Sample Product',
-      price: 499.99,
-      description: 'A powerful device with amazing features.',
-      brand: 'TechBrand',
-      rating: 4.5,
-      reviews: 128,
-      stock: 50,
-      images: [
-        'https://via.placeholder.com/400',
-        'https://via.placeholder.com/400',
-        'https://via.placeholder.com/400',
-        'https://via.placeholder.com/400'
-      ],
-      specifications: {
-        'Display': '6.5 inch AMOLED',
-        'Processor': 'Latest Gen',
-        'RAM': '8GB',
-        'Storage': '128GB',
-        'Battery': '4500mAh',
-        'Camera': '48MP + 12MP + 8MP'
-      }
-    });
-  }, [id]);
+    useEffect(() => {
+        fetchProductDetails();
+    }, [id]);
 
-  const handleAddToCart = () => {
-    addToCart(product, quantity);
-  };
+    const fetchProductDetails = async () => {
+        try {
+            const response = await API.get(`api/products/${id}/`);
+            setProduct(response.data);
+        } catch (error) {
+            message.error('Failed to load product details');
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  const handleBuyNow = () => {
-    addToCart(product, quantity);
-    navigate('/checkout');
-  };
-
-  if (!product) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  return (
-    <div className="product-details-container">
-      <div className="product-details-content">
-        {/* Product Images Section */}
-        <div className="product-images">
-          <div className="thumbnail-list">
-            {product.images.map((image, index) => (
-              <img
-                key={index}
-                src={image}
-                alt={`${product.name} view ${index + 1}`}
-                className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                onClick={() => setSelectedImage(index)}
-              />
-            ))}
-          </div>
-          <div className="main-image">
-            <img
-              src={product.images[selectedImage]}
-              alt={product.name}
-            />
-          </div>
-          <div className="product-actions">
-            <button 
-              className="add-to-cart-btn"
-              onClick={handleAddToCart}
-            >
-              Add to Cart
-            </button>
-            <button 
-              className="buy-now-btn"
-              onClick={handleBuyNow}
-            >
-              Buy Now
-            </button>
-          </div>
-        </div>
-
-        {/* Product Info Section */}
-        <div className="product-info">
-          <h1>{product.name}</h1>
-          <div className="product-rating">
-            <span className="rating">{product.rating}★</span>
-            <span className="reviews">({product.reviews} Reviews)</span>
-          </div>
-          <div className="product-price">
-            <h2>${product.price}</h2>
-            <div className="quantity-selector">
-              <button 
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={quantity <= 1}
-              >
-                -
-              </button>
-              <span>{quantity}</span>
-              <button 
-                onClick={() => setQuantity(quantity + 1)}
-                disabled={quantity >= product.stock}
-              >
-                +
-              </button>
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Spin size="large" />
             </div>
-          </div>
+        );
+    }
 
-          <div className="product-description">
-            <h3>Description</h3>
-            <p>{product.description}</p>
-          </div>
+    if (!product) {
+        return (
+            <div className="text-center py-8">
+                <h2 className="text-xl">Product not found</h2>
+                <Button 
+                    type="primary" 
+                    icon={<ArrowLeftOutlined />}
+                    onClick={() => navigate('/products')}
+                    className="mt-4"
+                >
+                    Back to Products
+                </Button>
+            </div>
+        );
+    }
 
-          <div className="product-specifications">
-            <h3>Specifications</h3>
-            <table>
-              <tbody>
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <tr key={key}>
-                    <td className="spec-key">{key}</td>
-                    <td className="spec-value">{value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    return (
+        <div className="product-details-container">
+            <Button 
+                icon={<ArrowLeftOutlined />} 
+                onClick={() => navigate('/products')}
+                className="mb-4"
+            >
+                Back to Products
+            </Button>
+            
+            <Card bordered={false}>
+                <Row gutter={[32, 32]}>
+                    <Col xs={24} md={12}>
+                        <Image
+                            src={product.image}
+                            alt={product.name}
+                            className="product-image"
+                        />
+                    </Col>
+
+                    <Col xs={24} md={12}>
+                        <div className="product-info">
+                            <h1 className="text-3xl font-bold">{product.name}</h1>
+                            
+                            <div className="flex items-center mt-4">
+                                <Rate disabled defaultValue={product.rating || 0} />
+                                <span className="ml-2 text-gray-500">
+                                    ({product.reviews} reviews)
+                                </span>
+                            </div>
+
+                            <div className="price-tag">
+                                ${product.price.toFixed(2)}
+                            </div>
+
+                            <div className="stock-status">
+                                {product.inStock ? (
+                                    <Tag color="green">In Stock</Tag>
+                                ) : (
+                                    <Tag color="red">Out of Stock</Tag>
+                                )}
+                            </div>
+
+                            <p className="product-description">
+                                {product.description}
+                            </p>
+
+                            <div className="action-buttons">
+                                <Button
+                                    type="primary"
+                                    icon={<ShoppingCartOutlined />}
+                                    size="large"
+                                    disabled={!product.inStock}
+                                    onClick={() => {
+                                        message.success('Added to cart');
+                                        // Add your cart logic here
+                                    }}
+                                >
+                                    Add to Cart
+                                </Button>
+
+                                <Button
+                                    icon={isWishlisted ? <HeartFilled /> : <HeartOutlined />}
+                                    size="large"
+                                    onClick={() => {
+                                        setIsWishlisted(!isWishlisted);
+                                        message.success(
+                                            isWishlisted 
+                                                ? 'Removed from wishlist' 
+                                                : 'Added to wishlist'
+                                        );
+                                    }}
+                                >
+                                    {isWishlisted ? 'Wishlisted' : 'Add to Wishlist'}
+                                </Button>
+                            </div>
+
+                            <div className="additional-details">
+                                <h3 className="text-xl font-semibold">Product Details</h3>
+                                <div className="details-grid">
+                                    <div className="detail-item">
+                                        <div className="detail-label">Category</div>
+                                        <div className="detail-value">{product.category}</div>
+                                    </div>
+                                    <div className="detail-item">
+                                        <div className="detail-label">Brand</div>
+                                        <div className="detail-value">{product.brand}</div>
+                                    </div>
+                                    {/* Add more details as needed */}
+                                </div>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Card>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ProductDetails; 

@@ -89,3 +89,35 @@ class Admin_Login(APIView):
             return Response({'success': False, 'message': 'Invalid credentials'}, status=401)
            
  
+
+class SignupView(APIView):
+    def post(self, request, format=None):
+        # Check if email already exists
+        email = request.data.get('email')
+        if User.objects.filter(email=email).exists():
+            return Response(
+                {'error': 'Email already exists'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        serializer = UserRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            tokens = get_tokens_for_user(user)
+            
+            return Response({
+                'message': 'Registration successful',
+                'tokens': tokens,
+                'user': {
+                    'id': user.user_id,
+                    'email': user.email,
+                    'name': user.name,
+                    'user_type': user.user_type
+                }
+            }, status=status.HTTP_201_CREATED)
+        
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+

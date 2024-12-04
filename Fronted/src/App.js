@@ -20,7 +20,6 @@ import NewDashboard from './components/NewDashbaord/dashboard/DashboardLayout';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Unauthorized from './components/Unauthorized';
 import SellerRegister from './components/SellerRegister';
-import SuperAdminDashboard from './components/SuperAdminDashbaord/SuperAdminDashboard'
 
 import './App.css';
 
@@ -36,6 +35,7 @@ const App = () => {
                 {/* Public Routes - No Authentication Required */}
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/seller-login" element={<SellerLogin />} />
