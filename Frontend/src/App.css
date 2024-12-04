@@ -1,0 +1,39 @@
+/* App.css */
+.app-container {
+  display: flex;
+  height: 100vh; /* Ensures the sidebar takes full height */
+  font-family: 'Arial', sans-serif;
+}
+
+
+.content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  max-height: 100vh; /* Prevents content from overflowing vertically */
+}
+
+.dashboard-container,
+.settings-container,
+.other-page-container {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-container h2,
+.settings-container h2,
+.other-page-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.dashboard-container p,
+.settings-container p,
+.other-page-container p {
+  font-size: 1.2rem;
+  color: #555;
+}
