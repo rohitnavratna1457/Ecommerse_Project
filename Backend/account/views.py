@@ -82,7 +82,7 @@ class Admin_Login(APIView):
             # if user.is_staff:  # Only allow admin/staff users to login
             #         login(request, user)
             print(user,'********** user **********')
-            return Response({'success': True, 'message': 'Login successful'},user)
+            return Response({'success': True, 'message': 'Login successful',user_type},user)
             # else:
             #         return JsonResponse({'success': False, 'message': 'You do not have admin privileges'})
  
