@@ -80,7 +80,7 @@ class Category(models.Model):
 #Table Sub Categoreis 
 class SubCategory(models.Model):
     subcategory_id = models.AutoField(primary_key=True)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name=models.CharField(max_length=50)
     is_status=models.BooleanField()
     slug=models.SlugField()
@@ -97,8 +97,8 @@ class Product(models.Model):
     created_date = models.DateTimeField(auto_now=True)
     updated_date = models.DateTimeField(auto_now=True)
     
-    subcategory_id = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     # Correct __str__ method
     def __str__(self):

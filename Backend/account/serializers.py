@@ -27,4 +27,32 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     validated_data.pop('password2', None)  # Remove password2 from validated_data
     return User.objects.create_user(**validated_data)
 
+# Serializer for the Category model
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'  # This will include all fields from the Category model
 
+# Serializer for the SubCategory model
+class SubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = '__all__'
+
+    def validate_category(self, value):
+        if value is None:
+            raise serializers.ValidationError("Category cannot be null.")
+        return value
+    
+
+# Serializer for the Product model
+class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.category_name', read_only=True)
+    # name = serializers.CharField(source='category.subcategory.name', read_only=True)
+    subcategory_name = serializers.CharField(source='category.name', read_only=True)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    subcategory = serializers.PrimaryKeyRelatedField(queryset=SubCategory.objects.all())
+
+    class Meta:
+        model = Product
+        fields = '__all__'

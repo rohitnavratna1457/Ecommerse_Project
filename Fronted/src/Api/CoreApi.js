@@ -4,14 +4,6 @@ import axios from "axios";
 // import API_URL from '../Config/Config';
 
 
-// export const EmpLogin = async (values) => {
-//     const response = await API.post('api/login', values,
-//         { headers: { 'Content-Type': 'application/json' } }).catch(
-//             err => message.error('Registration Failed')
-//         )
-//     return response ? response.data : {}
-// }
-
 export const PostSignUp = async (values) => {
     const response = await API.post('api/signUp', values,
         { headers: { 'Content-Type': 'multipart/form-data' } }).catch(
@@ -53,6 +45,97 @@ export const loginUser = async(values) => {
   )
   return response ? response.data: {}
 }
+   
+
+// Categories using to serrvice api -------
+
+export const PostCategory = async (values) => {          
+    // console.log("sevice_data",values);
+    const response = await API.post('account/category', values,
+        { headers: { 'Content-Type': 'application/json'} }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+}
+
+export const GettCategory = async (values) => {          
+    // console.log("sevice_data",values);
+    const response = await API.post('account/category', values,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+} 
+export const GettCategoryGet = async (values) => {          
+    // console.log("sevice_data",values);
+    const response = await API.get('account/category', values,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+} 
+
+export const DeleteCategory = async (productId) => {          
+    const response = await API.delete(`account/category/${productId}`,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Deletion Failed')
+        )
+    return response ? response.data : {}
+}
+
+
+export const PostSubCategory = async (values) => {          
+    console.log(values,'****** coreAPI *******');
+    const response = await API.post('account/subCategory', values,
+        { headers: { 'Content-Type': 'application/json'} }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+}
+
+export const GettSubCategory = async (values) => {          
+    // console.log("sevice_data",values);
+    const response = await API.get('account/subCategory', values,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+}
+
+export const DeleteSubCategory = async (productId) => {          
+    const response = await API.delete(`account/subCategory/${productId}`,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Deletion Failed')
+        )
+    return response ? response.data : {}
+}
+
+
+export const PostProduct = async (values) => {          
+    console.log(values,'****** coreAPI *******');
+    const response = await API.post('account/product', values,
+        { headers: { 'Content-Type': 'multipart/form-data'} }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+}
+
+export const GetProduct = async (values) => {          
+    // console.log("sevice_data",values);
+    const response = await API.get('account/product', values,
+        { headers: { 'Content-Type': 'multipart/form-data' } }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+}
+
+export const DeleteProduct = async (productId) => {          
+    const response = await API.delete(`account/product/${productId}`,
+        { headers: { 'Content-Type': 'application/json' } }).catch(
+            err => message.error('Deletion Failed')
+        )
+    return response ? response.data : {}
+}
 
 
 // export const loginUser = async (values) => {
@@ -86,23 +169,6 @@ export const loginUser = async(values) => {
 //     return response ? response.data:{}
 // }
 
-// export const HealthCheckupp = async (values) => {          
-//     // console.log("sevice_data",values);
-//     const response = await API.post('api/HealthCheckup/', values,
-//         { headers: { 'Content-Type': 'application/json'} }).catch(
-//             err => message.error('Registration Failed')
-//         )
-//     return response ? response.data : {}
-// }
-
-// export const ConsultOnlineApp = async (values) => {          
-//     // console.log("sevice_data",values);
-//     const response = await API.post('api/ConsultOnline/', values,
-//         { headers: { 'Content-Type': 'application/json' } }).catch(
-//             err => message.error('Registration Failed')
-//         )
-//     return response ? response.data : {}
-// }
 
 // export const ProductPostApi = async (values) => {          
 //     console.log("sevice_data",values);

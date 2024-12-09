@@ -15,6 +15,7 @@ import Category from './component/Category';
 import Subcategory from './component/Subcategory';
 import Products from './component/Products';
 import Seller from './component/Sellers';
+import Add_user from './component/Add user';
 import './SuperAdminDashboard.css';
 
 const { Header, Sider, Content } = Layout;
@@ -48,6 +49,11 @@ const SuperAdminDashboard = () => {
             key: 'sellers',
             icon: <TeamOutlined />,
             label: <Link to="/superadmin/dashboard/sellers">Sellers</Link>
+        },
+        {
+            key: 'add_user',
+            icon: <TeamOutlined />,
+            label: <Link to="/superadmin/dashboard/Add_user">Add User</Link>
         },
         {
             key: 'settings',
@@ -92,6 +98,7 @@ const SuperAdminDashboard = () => {
                         <Route path="/subcategories" element={<Subcategory />} />
                         <Route path="/products" element={<Products />} />
                         <Route path="/sellers" element={<Seller />} />
+                        <Route path="/add_user" element={<Add_user />} />
                         <Route path="/settings" element={<div>Settings Page</div>} />
                     </Routes>
                 </Content>

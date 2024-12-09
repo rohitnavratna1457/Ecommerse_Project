@@ -1,191 +1,224 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Select, Space, Tag, message } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import './Subcategory.css';
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Select, Button, Switch, Typography, Modal, notification, message, Space, Table } from 'antd';
+import { PostSubCategory, GettSubCategory, GettCategoryGet, DeleteSubCategory } from '../../../Api/CoreApi'; // Import API functions
 
 const { Option } = Select;
+const { Title } = Typography;
 
-const Subcategory = () => {
+const SubCategoryForm = () => {
+    const [categories, setCategories] = useState([]);
+    const [Loading, setLoading] = useState();
+    const [subcategoriesList, setSubCategoriesList] = useState([]); // State for the list of categories
+    const [products, setProducts] = useState([]);
+    const [editingProduct, setEditingProduct] = useState([]);
+
+    const [subcategory, setSubCategory] = useState({
+        name: '',
+        category_id: null,
+        is_status: true,
+        slug: '',
+    });
+    console.log(categories, '** subcategory ***')
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [form] = Form.useForm();
-    const [editingSubcategory, setEditingSubcategory] = useState(null);
-    const [subcategories, setSubcategories] = useState([
-        {
-            id: 1,
-            name: 'Smartphones',
-            parentCategory: 'Electronics',
-            products: 45,
-            status: 'active'
-        },
-        {
-            id: 2,
-            name: 'Laptops',
-            parentCategory: 'Electronics',
-            products: 30,
-            status: 'active'
-        },
-        // Add more sample data
-    ]);
 
+    useEffect(() => {
+        fetchSubCategoryList();
+        fetchCategories();
+    }, []);
+
+    //get category list
+    const fetchSubCategoryList = async () => {
+        try {
+            const response = await GettSubCategory(); // Call directly without .get()
+
+            if (Array.isArray(response.data)) {
+                setSubCategoriesList(response.data);
+            } else {
+                console.warn('Fetched data is not an array:', response.data);
+                setSubCategoriesList(response);
+            }
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            notification.error({
+                message: 'Failed to load categories',
+                description: error.message,
+            });
+            setSubCategoriesList([]);
+        }
+    };
+
+    const fetchCategories = async () => {
+        setLoading(true);
+        try {
+            const response = await GettCategoryGet(); // Call directly without .get()
+
+            if (Array.isArray(response.data)) {
+                setCategories(response.data);
+            } else {
+                console.warn('Fetched data is not an array:', response.data);
+                setCategories(response);
+            }
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+            notification.error({
+                message: 'Failed to load categories',
+                description: error.message,
+            });
+            setCategories([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit = async (values) => {
+        try {
+            console.log('Form submitted with values:', values);
+            const response = await PostSubCategory(values); // Submit form data using the PostSubCategory API
+            console.log('Subcategory added successfully:', response.data);
+
+            notification.success({ message: 'Success', description: 'Subcategory added successfully' });
+            setIsModalVisible(false); // Close the modal after successful submission
+        } catch (error) {
+            console.error('Error adding subcategory:', error);
+            notification.error({ message: 'Failed to add subcategory', description: error.message });
+        }
+    };
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    //delete the SubCategories
+    const handleDelete = async (record) => {
+        try {
+            const response = await DeleteSubCategory(record.product_id); // Assuming DeleteProduct is an API to delete a product
+            setProducts(products.filter(product => product.product_id !== record.product_id));
+            notification.success({
+                message: 'Success',
+                description: 'Product deleted successfully'
+            });
+        } catch (error) {
+            notification.error({
+                message: 'Failed to delete product',
+                description: error.message || 'An error occurred while deleting the product'
+            });
+        }
+    };
+
+    // Handle SubCategories editing
+    const handleEdit = (record) => {
+        setEditingProduct(record);
+        setIsModalVisible(true);
+    };
+
+    // Define columns for the table
     const columns = [
         {
-            title: 'Subcategory Name',
+            title: 'Category Name',
             dataIndex: 'name',
-            key: 'name',
-            sorter: (a, b) => a.name.localeCompare(b.name),
+            key: 'category_name',
         },
         {
-            title: 'Parent Category',
-            dataIndex: 'parentCategory',
-            key: 'parentCategory',
-            filters: [
-                { text: 'Electronics', value: 'Electronics' },
-                { text: 'Fashion', value: 'Fashion' },
-            ],
-            onFilter: (value, record) => record.parentCategory === value,
-        },
-        {
-            title: 'Products',
-            dataIndex: 'products',
-            key: 'products',
-            sorter: (a, b) => a.products - b.products,
+            title: 'Slug',
+            dataIndex: 'slug',
+            key: 'slug',
         },
         {
             title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status) => (
-                <Tag color={status === 'active' ? 'green' : 'red'}>
-                    {status.toUpperCase()}
-                </Tag>
-            ),
+            dataIndex: 'is_status',
+            key: 'is_status',
+            render: (text) => (text ? 'Active' : 'Inactive'), // Display 'Active' or 'Inactive'
         },
         {
             title: 'Actions',
             key: 'actions',
-            render: (_, record) => (
+            render: (text, record) => (
                 <Space size="middle">
-                    <Button
-                        type="primary"
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(record)}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.id)}
-                    >
-                        Delete
-                    </Button>
+                    <a onClick={() => handleEdit(record)}>Edit</a>
+                    <a onClick={() => handleDelete(record)}>Delete</a>
                 </Space>
             ),
         },
     ];
 
-    const handleEdit = (subcategory) => {
-        setEditingSubcategory(subcategory);
-        form.setFieldsValue(subcategory);
-        setIsModalVisible(true);
-    };
-
-    const handleDelete = (subcategoryId) => {
-        Modal.confirm({
-            title: 'Are you sure you want to delete this subcategory?',
-            content: 'This action cannot be undone.',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                setSubcategories(subcategories.filter(sub => sub.id !== subcategoryId));
-                message.success('Subcategory deleted successfully');
-            },
-        });
-    };
-
-    const handleModalOk = () => {
-        form.validateFields().then(values => {
-            if (editingSubcategory) {
-                setSubcategories(subcategories.map(sub =>
-                    sub.id === editingSubcategory.id ? { ...sub, ...values } : sub
-                ));
-                message.success('Subcategory updated successfully');
-            } else {
-                const newSubcategory = {
-                    id: subcategories.length + 1,
-                    ...values,
-                    products: 0,
-                    status: 'active'
-                };
-                setSubcategories([...subcategories, newSubcategory]);
-                message.success('Subcategory added successfully');
-            }
-            handleModalCancel();
-        });
-    };
-
-    const handleModalCancel = () => {
-        setIsModalVisible(false);
-        setEditingSubcategory(null);
-        form.resetFields();
-    };
-
     return (
-        <div className="subcategory-container">
-            <div className="subcategory-header">
-                <h2>Subcategories Management</h2>
-                <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => setIsModalVisible(true)}
-                >
-                    Add New Subcategory
-                </Button>
-            </div>
-
-            <Table
-                columns={columns}
-                dataSource={subcategories}
-                rowKey="id"
-                className="subcategory-table"
-            />
+        <div style={{ padding: '20px' }}>
+            <Button type="primary" onClick={showModal}>
+                Add Subcategory
+            </Button>
 
             <Modal
-                title={editingSubcategory ? "Edit Subcategory" : "Add New Subcategory"}
-                open={isModalVisible}
-                onOk={handleModalOk}
-                onCancel={handleModalCancel}
-                destroyOnClose
+                title="Add or Edit Subcategory"
+                visible={isModalVisible}
+                onCancel={handleCancel}
+                footer={null} // Hide default footer to use the form's own submit button
+                width={600}
             >
                 <Form
-                    form={form}
                     layout="vertical"
-                    className="subcategory-form"
+                    initialValues={subcategory}
+                    onFinish={handleSubmit}
                 >
                     <Form.Item
-                        name="name"
                         label="Subcategory Name"
-                        rules={[{ required: true, message: 'Please input subcategory name!' }]}
+                        name="name"
+                        rules={[{ required: true, message: 'Please enter the subcategory name!' }]}
                     >
-                        <Input />
+                        <Input placeholder="Enter subcategory name" />
                     </Form.Item>
 
                     <Form.Item
-                        name="parentCategory"
-                        label="Parent Category"
-                        rules={[{ required: true, message: 'Please select parent category!' }]}
+                        label="Category"
+                        name="category"
+                        rules={[{ required: true, message: 'Please select a category!' }]}
                     >
-                        <Select>
-                            <Option value="Electronics">Electronics</Option>
-                            <Option value="Fashion">Fashion</Option>
-                            <Option value="Home">Home</Option>
+                        <Select placeholder="Select a category">
+                            {categories.map(categories => (
+                                <Option key={categories.category_id} value={categories.category_name}>
+                                    {categories.category_name}
+                                </Option>
+                            ))}
                         </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Slug"
+                        name="slug"
+                        rules={[{ required: true, message: 'Please enter the slug!' }]}
+                    >
+                        <Input placeholder="Enter subcategory slug" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Status"
+                        name="is_status"
+                        valuePropName="checked"
+                    >
+                        <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            Submit
+                        </Button>
                     </Form.Item>
                 </Form>
             </Modal>
+
+            {/* Table to display categories */}
+            <Table
+                dataSource={subcategoriesList}
+                columns={columns}
+                rowKey="id" // Assuming each category has a unique 'id' field
+                pagination={{ pageSize: 5 }} // Customize the page size as needed
+                style={{ marginTop: 20 }}
+            />
         </div>
     );
 };
 
-export default Subcategory;
+export default SubCategoryForm;

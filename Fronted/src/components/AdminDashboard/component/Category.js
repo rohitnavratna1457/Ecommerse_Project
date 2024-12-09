@@ -1,168 +1,319 @@
-import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Input, Space, Tag, message } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import './Category.css';
+// import React, { useEffect, useState } from 'react';
+// import { Form, Input, Button, Switch, Row, Col, Modal } from 'antd';
+// import { PostCategory, GettCategory } from '../../../Api/CoreApi'; // Import your API functions
 
-const Category = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [form] = Form.useForm();
-    const [editingCategory, setEditingCategory] = useState(null);
-    const [categories, setCategories] = useState([
-        { id: 1, name: 'Electronics', status: 'active', products: 150 },
-        { id: 2, name: 'Fashion', status: 'active', products: 320 },
-        { id: 3, name: 'Home & Living', status: 'inactive', products: 90 },
-        // Add more sample data as needed
-    ]);
+// const CategoryForm = () => {
+//   const [category, setCategory] = useState({
+//     category_name: '',
+//     is_status: true,
+//     slug: '',
+//   }); 
 
-    const columns = [
-        {
-            title: 'Category Name',
-            dataIndex: 'name',
-            key: 'name',
-            sorter: (a, b) => a.name.localeCompare(b.name),
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status) => (
-                <Tag color={status === 'active' ? 'green' : 'red'}>
-                    {status.toUpperCase()}
-                </Tag>
-            ),
-        },
-        {
-            title: 'Total Products',
-            dataIndex: 'products',
-            key: 'products',
-            sorter: (a, b) => a.products - b.products,
-        },
-        {
-            title: 'Actions',
-            key: 'actions',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Button
-                        type="primary"
-                        icon={<EditOutlined />}
-                        onClick={() => handleEdit(record)}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.id)}
-                    >
-                        Delete
-                    </Button>
-                </Space>
-            ),
-        },
-    ];
+//   // alert(JSON.stringify(category))
+//   console.log(category)
 
-    const handleEdit = (category) => {
-        setEditingCategory(category);
-        form.setFieldsValue(category);
-        setIsModalVisible(true);
-    };
+//   const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const handleDelete = (categoryId) => {
-        Modal.confirm({
-            title: 'Are you sure you want to delete this category?',
-            content: 'This action cannot be undone.',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                setCategories(categories.filter(cat => cat.id !== categoryId));
-                message.success('Category deleted successfully');
-            },
-        });
-    };
+//   // Fetch category data when the component mounts
+//   useEffect(() => {
+//     const fetchCategory = async () => {
+//       try {
+//         const response = await GettCategory(); // Call the API to get category data
+//         setCategory(response.data); // Update state with fetched data
+//       } catch (error) {
+//         console.error('Error fetching category data:', error);
+//       }
+//     };
 
-    const handleModalOk = () => {
-        form.validateFields().then(values => {
-            if (editingCategory) {
-                // Update existing category
-                setCategories(categories.map(cat =>
-                    cat.id === editingCategory.id ? { ...cat, ...values } : cat
-                ));
-                message.success('Category updated successfully');
-            } else {
-                // Add new category
-                const newCategory = {
-                    id: categories.length + 1,
-                    ...values,
-                    products: 0,
-                    status: 'active'
-                };
-                setCategories([...categories, newCategory]);
-                message.success('Category added successfully');
-            }
-            handleModalCancel();
-        });
-    };
+//     fetchCategory();
+//   }, []); 
 
-    const handleModalCancel = () => {
-        setIsModalVisible(false);
-        setEditingCategory(null);
-        form.resetFields();
-    };
+//   // Handle form submission
+//   const handleSubmit = async (values) => {
+//     console.log('Form submitted with values:', values);
 
-    return (
-        <div className="category-container">
-            <div className="category-header">
-                <h2>Categories Management</h2>
-                <Button
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    onClick={() => setIsModalVisible(true)}
-                >
-                    Add New Category
-                </Button>
-            </div>
+//     try {
+//       const response = await PostCategory(values); // Call API to submit form data
+//       console.log('Category submitted successfully:', response.data);
+//       setIsModalVisible(false); // Close the modal after successful submission
+//     } catch (error) {
+//       console.error('Error submitting category:', error);
+//     }
+//   };
 
-            <Table
-                columns={columns}
-                dataSource={categories}
-                rowKey="id"
-                className="category-table"
-            />
+//   // Show the modal
+//   const showModal = () => {
+//     setIsModalVisible(true);
+//   };
 
-            <Modal
-                title={editingCategory ? "Edit Category" : "Add New Category"}
-                open={isModalVisible}
-                onOk={handleModalOk}
-                onCancel={handleModalCancel}
-                destroyOnClose
-            >
-                <Form
-                    form={form}
-                    layout="vertical"
-                    className="category-form"
-                >
-                    <Form.Item
-                        name="name"
-                        label="Category Name"
-                        rules={[{ required: true, message: 'Please input category name!' }]}
-                    >
-                        <Input placeholder="Enter category name" />
-                    </Form.Item>
+//   // Close the modal
+//   const handleCancel = () => {
+//     setIsModalVisible(false);
+//   };
 
-                    {editingCategory && (
-                        <Form.Item
-                            name="status"
-                            label="Status"
-                            initialValue={editingCategory.status}
-                        >
-                            <Input disabled />
-                        </Form.Item>
-                    )}
-                </Form>
-            </Modal>
-        </div>
-    );
+//   return (
+//     <div>
+//       <Button type="primary" onClick={showModal}>
+//         Open Category Form
+//       </Button>
+
+//       <Modal
+//         title="Category Form"
+//         visible={isModalVisible}
+//         onCancel={handleCancel}
+//         footer={null} // Hide the default footer to use the form's button
+//         width={600}
+//       >
+//         <Form
+//           layout="vertical"
+//           initialValues={category}
+//           onFinish={handleSubmit}
+//         >
+//           <Row gutter={16}>
+//             {/* First column */}
+//             <Col xs={24} sm={12}>
+//               <Form.Item
+//                 label="Category Name"
+//                 name="category_name"
+//                 rules={[{ required: true, message: 'Please enter the category name!' }]}
+//               >
+//                 <Input placeholder="Enter category name" />
+//               </Form.Item>
+//             </Col>
+
+//             {/* Second column */}
+//             <Col xs={24} sm={12}>
+//               <Form.Item
+//                 label="Slug"
+//                 name="slug"
+//                 rules={[{ required: true, message: 'Please enter the slug!' }]}
+//               >
+//                 <Input placeholder="Enter category slug" />
+//               </Form.Item>
+//             </Col>
+//           </Row>
+
+//           <Row gutter={16}>
+//             {/* Status column */}
+//             <Col xs={24}>
+//               <Form.Item
+//                 label="Status"
+//                 name="is_status"
+//                 valuePropName="checked"
+//               >
+//                 <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+//               </Form.Item>
+//             </Col>
+//           </Row>
+
+//           <Form.Item>
+//             <Button type="primary" htmlType="submit">
+//               Submit
+//             </Button>
+//           </Form.Item>
+//         </Form>
+//       </Modal>
+//     </div>
+//   );
+// };
+
+// export default CategoryForm;
+
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Button, Switch, Row, Col, Modal, Table, notification, Space } from 'antd';
+import { PostCategory, GettCategoryGet, DeleteCategory } from '../../../Api/CoreApi'; // Import your API functions
+
+const CategoryForm = () => {
+  
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [categories, setCategories] = useState([]); // State for the list of categories
+  const [categoriesList, setCategoriesList] = useState([]); // State for the list of categories
+  const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState([]);
+
+
+  const [category, setCategory] = useState({
+    category_name: '',
+    is_status: true,
+    slug: '',
+  });
+
+  // Fetch category data when the component mounts
+  useEffect(() => {
+    
+    fetchCategory();
+  }, []);
+
+  //get category list
+  const fetchCategory = async () => {
+    try {
+      const response = await GettCategoryGet(); // Call directly without .get()
+
+      if (Array.isArray(response.data)) {
+        setCategoriesList(response.data);
+      } else {
+        console.warn('Fetched data is not an array:', response.data);
+        setCategoriesList(response);
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      notification.error({
+        message: 'Failed to load categories',
+        description: error.message,
+      });
+      setCategoriesList([]);
+    } 
+  };
+
+  // Handle form submission
+  const handleSubmit = async (values) => {
+    console.log('Form submitted with values:', values);
+
+    try {
+      const response = await PostCategory(values); // Call API to submit form data
+      console.log('Category submitted successfully:', response.data);
+      setCategories((prevCategories) => [...prevCategories, response.data]); // Add new category to state
+      setIsModalVisible(false); // Close the modal after successful submission
+    } catch (error) {
+      console.error('Error submitting category:', error);
+    }
+  };
+
+  // Show the modal
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  // Close the modal
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+  //delete the categories
+  const handleDelete = async (record) => {
+    try {
+      const response = await DeleteCategory(record.product_id); // Assuming DeleteProduct is an API to delete a product
+      setProducts(products.filter(product => product.product_id !== record.product_id));
+      notification.success({
+        message: 'Success',
+        description: 'Product deleted successfully'
+      });
+    } catch (error) {
+      notification.error({
+        message: 'Failed to delete product',
+        description: error.message || 'An error occurred while deleting the product'
+      });
+    }
+  };
+
+  // Handle product editing
+  const handleEdit = (record) => {
+    setEditingProduct(record);
+    setIsModalVisible(true);
+  };
+  // Define columns for the table
+  const columns = [
+    {
+      title: 'Category Name',
+      dataIndex: 'category_name',
+      key: 'category_name',
+    },
+    {
+      title: 'Slug',
+      dataIndex: 'slug',
+      key: 'slug',
+    },
+    {
+      title: 'Status',
+      dataIndex: 'is_status',
+      key: 'is_status',
+      render: (text) => (text ? 'Active' : 'Inactive'), // Display 'Active' or 'Inactive'
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (text, record) => (
+        <Space size="middle">
+          <a onClick={() => handleEdit(record)}>Edit</a>
+          <a onClick={() => handleDelete(record)}>Delete</a>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <Button type="primary" onClick={showModal}>
+        Open Category Form
+      </Button>
+
+      <Modal
+        title="Category Form"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null} // Hide the default footer to use the form's button
+        width={600}
+      >
+        <Form
+          layout="vertical"
+          initialValues={category}
+          onFinish={handleSubmit}
+        >
+          <Row gutter={16}>
+            {/* First column */}
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Category Name"
+                name="category_name"
+                rules={[{ required: true, message: 'Please enter the category name!' }]}
+              >
+                <Input placeholder="Enter category name" />
+              </Form.Item>
+            </Col>
+
+            {/* Second column */}
+            <Col xs={24} sm={12}>
+              <Form.Item
+                label="Slug"
+                name="slug"
+                rules={[{ required: true, message: 'Please enter the slug!' }]}
+              >
+                <Input placeholder="Enter category slug" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
+            {/* Status column */}
+            <Col xs={24}>
+              <Form.Item
+                label="Status"
+                name="is_status"
+                valuePropName="checked"
+              >
+                <Switch checkedChildren="Active" unCheckedChildren="Inactive" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* Table to display categories */}
+      <Table
+        dataSource={categoriesList}
+        columns={columns}
+        rowKey="id" // Assuming each category has a unique 'id' field
+        pagination={{ pageSize: 5 }} // Customize the page size as needed
+        style={{ marginTop: 20 }}
+      />
+    </div>
+  );
 };
 
-export default Category;
+export default CategoryForm;
