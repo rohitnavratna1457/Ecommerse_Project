@@ -9,6 +9,8 @@ from .models import *
 import pdb
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
+from .serializers import  SellerDetailSerializer
+from django.shortcuts import get_object_or_404
 
 
 # Generate Token Manually
@@ -40,7 +42,56 @@ class UserRegistrationView(APIView):
               return Response({"message": 'user created'})
                  
           return Response(serializer.errors)
-
+  def get(self, request, format=None):
+        # Retrieve all users or a specific user based on the query parameter
+        user_id = request.query_params.get('user_id')
+        if user_id:
+            # Get specific user
+            try:
+                user = User.objects.get(id=user_id)
+                serializer = UserRegistrationSerializer(user)
+                seller_details = SellerDetail.objects.filter(seller_id=user).first()
+                seller_serializer = SellerDetailSerializer(seller_details) if seller_details else None
+                
+                response_data = serializer.data
+                if seller_details:
+                    response_data['seller_details'] = seller_serializer.data
+                
+                return Response(response_data)
+            except User.DoesNotExist:
+                return Response({"message": "User not found"}, status=404)
+        else:
+            # Get all users
+            users = User.objects.all()
+            serializer = UserRegistrationSerializer(users, many=True)
+            return Response(serializer.data)
+        
+  def delete(self, request, pk):
+        # Fetch the user based on pk
+        if pk:
+            seller_details = User.objects.filter(user_id=pk)
+            seller_details.delete()
+            return Response(status=200)
+        return Response({'message':"user not found"})
+  
+  def put(self, request, pk):
+        print(request)
+        # Fetch the user based on pk
+        if pk:
+            seller_details = User.objects.filter(user_id=pk)
+            seller_details.put()
+            return Response(status=200)
+        return Response({'message':"user not found"})
+        
+#   def delete(self,request,pk,format=None):
+#         Role_id=pk
+#         Role_delete=Role.objects.get(pk=Role_id)
+#         Role_delete.delete()
+#         RoleList=Role.objects.filter(com_id=request.user)
+#         Role_list_serializers=RoleSerializer(RoleList,many=True) 
+#         return Response(Role_list_serializers.data)
+  
+    
 
 class SellerActivationApiView(APIView):
     def post(self,request,format=None):

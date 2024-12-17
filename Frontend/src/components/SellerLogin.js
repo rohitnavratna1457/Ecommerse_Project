@@ -40,7 +40,7 @@ const Login = () => {
         // Navigate based on user type
         switch (response.user.user_type) {
           case 'SuperAdmin':
-            console.log('Navigating to Admin dashboard');
+            console.log('Navigating to SuperAdmin dashboard');
             navigate('/superadmin/dashboard/*');
             break;
           case 'Admin':

@@ -15,6 +15,7 @@ import Category from './component/Category';
 import Subcategory from './component/Subcategory';
 import Products from './component/Products';
 import Seller from './component/Sellers';
+import Add_User from './component/Add_User'
 import './SuperAdminDashboard.css';
 
 const { Header, Sider, Content } = Layout;
@@ -27,32 +28,32 @@ const SuperAdminDashboard = () => {
         {
             key: 'overview',
             icon: <DashboardOutlined />,
-            label: <Link to="/super-admin/overview">Overview</Link>
+            label: <Link to="/superadmin/dashboard/overview">Overview</Link>
         },
         {
             key: 'categories',
             icon: <AppstoreOutlined />,
-            label: <Link to="/super-admin/categories">Categories</Link>
+            label: <Link to="/superadmin/dashboard/categories">Categories</Link>
         },
         {
             key: 'subcategories',
             icon: <AppstoreOutlined />,
-            label: <Link to="/super-admin/subcategories">Subcategories</Link>
+            label: <Link to="/superadmin/dashboard/subcategories">Subcategories</Link>
         },
         {
             key: 'products',
             icon: <ShoppingOutlined />,
-            label: <Link to="/super-admin/products">Products</Link>
+            label: <Link to="/superadmin/dashboard/products">Products</Link>
         },
         {
             key: 'sellers',
             icon: <TeamOutlined />,
-            label: <Link to="/super-admin/sellers">Sellers</Link>
+            label: <Link to="/superadmin/dashboard/sellers">Sellers</Link>
         },
         {
             key: 'settings',
             icon: <SettingOutlined />,
-            label: <Link to="/super-admin/settings">Settings</Link>
+            label: <Link to="/superadmin/dashboard/Add_User">Add_User</Link>
         }
     ];
 
@@ -92,7 +93,7 @@ const SuperAdminDashboard = () => {
                         <Route path="/subcategories" element={<Subcategory />} />
                         <Route path="/products" element={<Products />} />
                         <Route path="/sellers" element={<Seller />} />
-                        <Route path="/settings" element={<div>Settings Page</div>} />
+                        <Route path="/Add_User" element={<div>{<Add_User/>}</div>} />
                     </Routes>
                 </Content>
             </Layout>

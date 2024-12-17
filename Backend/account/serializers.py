@@ -10,7 +10,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
   password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
   class Meta:
     model = User
-    fields=['email', 'name', 'password','password2','user_type','mobile_no','address','is_status']
+    fields=['user_id','email', 'name', 'password','password2','user_type','mobile_no','address','is_status','is_admin','is_superuser',]
     extra_kwargs={
       'password':{'write_only':True}
     }
@@ -27,4 +27,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     validated_data.pop('password2', None)  # Remove password2 from validated_data
     return User.objects.create_user(**validated_data)
 
-
+class SellerDetailSerializer(serializers.ModelSerializer):
+ class Meta:
+   model=SellerDetail
+   fields='__all__'

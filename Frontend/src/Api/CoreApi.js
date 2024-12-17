@@ -54,7 +54,64 @@ export const loginUser = async(values) => {
   return response ? response.data: {}
 }
 
+// this is superadmin postapi
+export const Adduser = async (values) => {
+    const response = await API.post('account/adduser', values,
+        { headers: { 'Content-Type': 'multipart/form-data' } }).catch(
+            err => message.error('Registration Failed')
+        )
+    return response ? response.data : {}
+} 
 
+
+export const GetUsers = async (values) => {
+    const response = await API.get('account/adduser',values, { 
+        headers: { 'Content-Type': 'application/json' } 
+    }).catch(
+        err => message.error('Failed to fetch users')
+    );
+    return response ? response.data : [];
+}
+export const DeleteUser = async (user_id) => {
+  console.log(user_id,'******** userId *********')
+    try {
+      // Perform the DELETE request
+      await API.delete(`account/adduser/${user_id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      // Display success message
+      message.success('User deleted successfully');
+    } catch (error) {
+      // Handle error and display error message
+      const errorMsg = error.response?.data?.message || 'Failed to delete user';
+      message.error(errorMsg);
+      console.error('Error deleting user:', error);
+    }
+  };
+
+  export const UpdateUser = async (user_id, data) => {
+    console.log(data,"((((((((((((((((data))))))))))")
+    console.log(user_id,'******** userId *********')
+      try {
+        // Perform the Update request
+        await API.put(`account/adduser/${user_id}`,data, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        // Display success message
+        message.success('User Update successfully');
+      } catch (error) {
+        // Handle error and display error message
+        const errorMsg = error.response?.data?.message || 'Failed to Update user';
+        message.error(errorMsg);
+        console.error('Error Updating user:', error);
+      }
+    };
 // export const loginUser = async (values) => {
 //   const token = localStorage.getItem("access"); // Replace with your actual token if required
 //   console.log(values, token , '8**********')
