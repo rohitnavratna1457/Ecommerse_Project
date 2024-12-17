@@ -14,11 +14,11 @@ const SubCategoryForm = () => {
 
     const [subcategory, setSubCategory] = useState({
         name: '',
-        category_id: null,
+        category_id:null ,
         is_status: true,
         slug: '',
     });
-    console.log(categories, '** subcategory ***')
+    console.log(categories, '**{{{{{}}}}} categories{{{{{}}}}} ***')
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const SubCategoryForm = () => {
         setLoading(true);
         try {
             const response = await GettCategoryGet(); // Call directly without .get()
-
+            console.log(response,"===========response======")
             if (Array.isArray(response.data)) {
                 setCategories(response.data);
             } else {
@@ -178,13 +178,16 @@ const SubCategoryForm = () => {
                     >
                         <Select placeholder="Select a category">
                             {categories.map(categories => (
+                                
                                 <Option key={categories.category_id} value={categories.category_name}>
                                     {categories.category_name}
                                 </Option>
+                                
                             ))}
+                            
                         </Select>
                     </Form.Item>
-
+                
                     <Form.Item
                         label="Slug"
                         name="slug"
