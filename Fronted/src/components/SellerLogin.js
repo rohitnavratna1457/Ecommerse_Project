@@ -8,7 +8,7 @@ const Login = () => {
   const [credentials, setCredentials] = useState({
     email: '',
     password: '',
-    loginType: 'SuperAdmin' // Will be used to differentiate login type if required
+    loginType: '' // Will be used to differentiate login type if required
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -24,31 +24,35 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
-  
+
     try {
       // Make API call to login
       const response = await loginUser(credentials);
       console.log('Login Response:', response); // Debugging: log API response
-  
+
       // Check if response contains necessary fields
       if (response.access && response.user.user_type) {
         // Save to localStorage
         localStorage.setItem('refresh', response.refresh);
         localStorage.setItem('access', response.access);
         localStorage.setItem('user_type', response.user.user_type);
-  
+
         // Navigate based on user type
         switch (response.user.user_type) {
+          case 'SuperAdmin':
+            console.log('Navigating to Admin dashboard');
+            navigate('/superadmin/dashboard/*');
+            break;
           case 'Admin':
             console.log('Navigating to Admin dashboard');
-            navigate('/admin/dashboard');
+            navigate('/admin/dashboard/*');
             break;
           case 'Seller':
             console.log('Navigating to Seller dashboard');
-            navigate('/seller/dashboard');
+            navigate('/seller/dashboard/*');
             break;
           default:
-            console.error('Unknown user type:', response.user.user_type);
+            console.error('Unknown user type:', response.user_type);
             setError('Unknown user type. Please contact support.');
         }
       } else {

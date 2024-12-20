@@ -1,0 +1,56 @@
+.products-container {
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.products-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #1a1a1a;
+}
+
+.products-table {
+    margin-top: 16px;
+}
+
+.products-table .ant-table-thead > tr > th {
+    background: #f7f7f7;
+    font-weight: 600;
+}
+
+.product-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.ant-upload-list-item-info {
+    padding: 0 4px;
+}
+
+.ant-upload-list-item-card-actions {
+    right: 4px;
+}
+
+@media (max-width: 768px) {
+    .products-container {
+        padding: 16px;
+    }
+
+    .products-header {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .ant-table {
+        overflow-x: auto;
+    }
+} 

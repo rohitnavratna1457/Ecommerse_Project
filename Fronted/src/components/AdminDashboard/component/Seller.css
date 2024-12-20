@@ -1,0 +1,73 @@
+.seller-container {
+    padding: 24px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seller-header {
+    margin-bottom: 24px;
+}
+
+.seller-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #1a1a1a;
+}
+
+.seller-stats {
+    margin-bottom: 24px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #8c8c8c;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a1a;
+}
+
+.seller-table {
+    margin-top: 24px;
+}
+
+.seller-table .ant-table-thead > tr > th {
+    background: #f7f7f7;
+    font-weight: 600;
+}
+
+.seller-details h3 {
+    margin-bottom: 16px;
+    color: #1a1a1a;
+    font-size: 20px;
+}
+
+.seller-details p {
+    margin-bottom: 8px;
+    color: #595959;
+}
+
+@media (max-width: 768px) {
+    .seller-container {
+        padding: 16px;
+    }
+
+    .stat-item {
+        margin-bottom: 16px;
+    }
+
+    .ant-table {
+        overflow-x: auto;
+    }
+} 
