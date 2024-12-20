@@ -21,6 +21,7 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import Unauthorized from './components/Unauthorized';
 import SellerRegister from './components/SellerRegister';
 import SuperAdminDashboard from './components/SuperAdminDashbaord/SuperAdminDashboard'
+import Seller_Kyc from './components/SuperAdminDashbaord/component/Seller_Kyc';
 
 import './App.css';
 
@@ -35,6 +36,7 @@ const App = () => {
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Home />} />
+                <Route path="/Seller_Kyc" element={<Seller_Kyc />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/login" element={<Login />} />
@@ -65,9 +67,9 @@ const App = () => {
                 <Route 
                   path="/admin/dashboard/*" 
                   element={
-                    <ProtectedRoute allowedRoles={['Admin']}>
+                    // <ProtectedRoute allowedRoles={['Admin']}>
                       <AdminDashboard />
-                    </ProtectedRoute>
+                    // </ProtectedRoute>
                   } 
                 />
 

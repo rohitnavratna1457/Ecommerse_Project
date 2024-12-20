@@ -1,71 +1,77 @@
-.add-product-container {
+form {
+  max-width: 600px;
+  margin: 20px auto;
   padding: 20px;
-}
-
-.product-form {
-  background: white;
-  padding: 30px;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+h1 {
+  text-align: center;
   margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
   color: #333;
-  font-weight: 500;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+input,
+textarea,
+select {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
-.form-group textarea {
-  height: 100px;
+textarea {
   resize: vertical;
+  min-height: 60px;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+input[type="file"] {
+  padding: 3px;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 30px;
+input[type="checkbox"] {
+  width: auto;
 }
 
-.form-actions button {
-  padding: 10px 20px;
+button {
+  width: 100%;
+  padding: 10px 15px;
   border: none;
   border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 14px;
+  transition: background-color 0.3s;
 }
 
-.form-actions button:first-child {
-  background: #6c757d;
-  color: white;
+button:hover {
+  background-color: #0056b3;
 }
 
-.submit-btn {
-  background: #28a745;
-  color: white;
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-.submit-btn:hover {
-  background: #218838;
-} 
+.error-message {
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 5px;
+}

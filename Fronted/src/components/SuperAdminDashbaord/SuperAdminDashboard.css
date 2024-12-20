@@ -198,4 +198,153 @@
   background-color: #fde8e8;
   border-radius: 8px;
   margin: 20px 0;
+}
+
+/* Main Layout Styles */
+.dashboard-sider {
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #001529;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo h2 {
+    color: white;
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Header Styles */
+.dashboard-header {
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.header-content {
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.header-content h2 {
+    margin: 0;
+    color: #1a1a1a;
+    font-size: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.user-info:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.user-info span {
+    color: #1a1a1a;
+}
+
+/* Content Styles */
+.dashboard-content {
+    margin: 24px;
+    min-height: 280px;
+}
+
+/* Menu Styles */
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #1890ff;
+}
+
+.ant-menu-dark .ant-menu-item:hover {
+    background-color: rgba(24, 144, 255, 0.7);
+}
+
+/* Common Component Container Styles */
+.component-container {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .dashboard-content {
+        margin: 16px;
+    }
+
+    .header-content h2 {
+        font-size: 18px;
+    }
+
+    .user-info span {
+        display: none;
+    }
+}
+
+/* Table Styles */
+.ant-table-wrapper {
+    background: white;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ant-table-thead > tr > th {
+    background: #f7f7f7 !important;
+    font-weight: 600;
+}
+
+/* Card Styles */
+.ant-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.ant-btn {
+    border-radius: 4px;
+}
+
+.ant-btn-primary {
+    background: #1890ff;
+}
+
+/* Form Styles */
+.ant-form-item-label > label {
+    font-weight: 500;
+}
+
+/* Modal Styles */
+.ant-modal-content {
+    border-radius: 8px;
+}
+
+.ant-modal-header {
+    border-radius: 8px 8px 0 0;
+}
+
+/* Tag Styles */
+.ant-tag {
+    border-radius: 4px;
+    padding: 4px 8px;
 } 
